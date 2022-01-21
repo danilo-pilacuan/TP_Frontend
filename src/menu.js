@@ -9,57 +9,82 @@ export default [
   ],
   'Administración',
   [
-    
     {
       to: '/activos',
       label: 'Activos',
-      icon: 'plus',
+      icon: 'table',
+      //updateMark: true
     },
     {
-      to: '/areas',
-      label: 'Areas',
-      icon: 'plus',
+      // to: '/forms',
+      label: 'Mantenimiento',
+      icon: 'wrench'
     },
     {
-      to: '/categorias',
-      label: 'Categorías',
-      icon: 'plus',
-    },
-    {
-      to: '/edificios',
-      label: 'Edificios',
-      icon: 'plus',
-    },
-    {
-      to: '/estadomantenimiento',
-      label: 'Estado Mantenimiento',
-      icon: 'plus',
-    },
-    {
-      to: '/periodicidades',
-      label: 'Periodicidades',
-      icon: 'plus',
-    },
-    {
-      to: '/prioridades',
-      label: 'Prioridades',
-      icon: 'plus',
-    },
-    {
-      to: '/tareas',
-      label: 'Tareas',
-      icon: 'plus',
-    },
-    {
-      to: '/trabajadores',
-      label: 'Trabajadores',
-      icon: 'plus',
+      // to: '/forms',
+      label: 'Informes Costos',
+      icon: 'book-open-page-variant'
     },
     {
       to: '/usuarios',
       label: 'Usuarios',
-      icon: 'plus',
+      icon: 'account-circle'
     },
+    {
+      label: 'Gestión',
+      subLabel: 'Submenus Example',
+      icon: 'view-list',
+      menu: [
+        {
+          to: '/areas',
+          label: 'Areas',
+          icon: 'plus',
+        },
+        {
+          to: '/categorias',
+          label: 'Categorías',
+          icon: 'plus',
+        },
+        {
+          to: '/edificios',
+          label: 'Edificios',
+          icon: 'plus',
+        },
+        {
+          to: '/estadomantenimiento',
+          label: 'Estado Mantenimiento',
+          icon: 'plus',
+        },
+        {
+          to: '/periodicidades',
+          label: 'Periodicidades',
+          icon: 'plus',
+        },
+        {
+          to: '/prioridades',
+          label: 'Prioridades',
+          icon: 'plus',
+        },
+        {
+          to: '/tareas',
+          label: 'Tareas',
+          icon: 'plus',
+        },
+        {
+          to: '/tipomantenimiento',
+          label: 'Tipo Mantenimiento',
+          icon: 'plus',
+        },
+        {
+          to: '/trabajadores',
+          label: 'Trabajadores',
+          icon: 'plus',
+        }
+      ]
+    }
+
+
+    
   ],
   
 ]

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <SecurityComponent/>
     <title-bar :title-stack="titleStack" />
     <section class="section is-main-section">
       <CrudPeriodicidades />
@@ -11,6 +12,7 @@
 import Notification from "@/components/Notification.vue";
 import CrudPeriodicidades from "@/components/CrudPeriodicidades.vue";
 import TitleBar from "@/components/TitleBar.vue";
+import SecurityComponent from "@/components/SecurityComponent.vue"
 
 export default {
   name: "Tables",
@@ -18,6 +20,7 @@ export default {
     TitleBar,
     Notification,
     CrudPeriodicidades,
+    SecurityComponent
   },
   data() {
     return {

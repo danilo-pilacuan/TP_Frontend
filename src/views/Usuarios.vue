@@ -1,27 +1,31 @@
 <template>
   <div>
+    <SecurityComponent/>
     <title-bar :title-stack="titleStack" />
     <section class="section is-main-section">
-      <CrudActivos />
+      <CrudUsuarios/>
     </section>
   </div>
 </template>
 
 <script>
 import Notification from "@/components/Notification.vue";
-import CrudActivos from "@/components/CrudActivos.vue";
+import CrudUsuarios from "@/components/CrudUsuarios.vue";
 import TitleBar from "@/components/TitleBar.vue";
+import SecurityComponent from "@/components/SecurityComponent.vue"
+
 
 export default {
   name: "Tables",
   components: {
     TitleBar,
     Notification,
-    CrudActivos,
+    CrudUsuarios,
+    SecurityComponent
   },
   data() {
     return {
-        titleStack : ['Administración','Usuarios']
+        titleStack : ['Gestión','Usuarios']
     };
   },
   methods:{

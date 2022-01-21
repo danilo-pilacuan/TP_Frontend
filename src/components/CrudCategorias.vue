@@ -117,7 +117,7 @@
                 />
               </div>
               <div class="column">
-                <b-button type="is-danger" @click="false" label="Cancelar" />
+                <b-button type="is-danger" @click="showModalCreateEdit=false" label="Cancelar" />
               </div>
             </div>
           </footer>

@@ -17,14 +17,7 @@
       >
         <b-icon icon="menu" />
       </a>
-      <div class="navbar-item has-control no-left-space-touch no-left-space-desktop-only">
-        <div class="control">
-          <!-- <input
-            class="input"
-            placeholder="Search everywhere..."
-          > -->
-        </div>
-      </div>
+      
     </div>
     <div class="navbar-brand is-right">
       <a
@@ -42,12 +35,12 @@
       :class="{ 'is-active': isMenuActive }"
     >
       <div class="navbar-end">
-        <nav-bar-menu class="has-divider">
+        <!-- <nav-bar-menu class="has-divider">
           <b-icon
             icon="menu"
             custom-size="default"
           />
-          <span>Opciones</span>
+          <span>Sample Menu</span>
           <div
             slot="dropdown"
             class="navbar-dropdown"
@@ -86,11 +79,11 @@
               <span>Log Out</span>
             </a>
           </div>
-        </nav-bar-menu>
+        </nav-bar-menu> -->
         <nav-bar-menu class="has-divider has-user-avatar">
           <user-avatar />
           <div class="is-user-name">
-            <span>{{ userName }}</span>
+            <span>Administrador</span>
           </div>
 
           <div
@@ -106,21 +99,14 @@
                 icon="account"
                 custom-size="default"
               />
-              <span>My Profile</span>
+              <span>Mi perfil</span>
             </router-link>
             <a class="navbar-item">
               <b-icon
                 icon="settings"
                 custom-size="default"
               />
-              <span>Settings</span>
-            </a>
-            <a class="navbar-item">
-              <b-icon
-                icon="email"
-                custom-size="default"
-              />
-              <span>Messages</span>
+              <span>Configuración</span>
             </a>
             <hr class="navbar-divider">
             <a class="navbar-item">
@@ -128,21 +114,11 @@
                 icon="logout"
                 custom-size="default"
               />
-              <span>Log Out</span>
+              <span>Cerrar Sesión</span>
             </a>
           </div>
         </nav-bar-menu>
-        <a
-          href="https://github.com/vikdiesel/admin-one-vue-bulma-dashboard"
-          class="navbar-item has-divider is-desktop-icon-only"
-          title="GitHub"
-        >
-          <b-icon
-            icon="github-circle"
-            custom-size="default"
-          />
-          <span>GitHub</span>
-        </a>
+       
         <a
           class="navbar-item is-desktop-icon-only"
           title="Log out"
@@ -212,10 +188,25 @@ export default {
     })
 
     const logout = () => {
-      $buefy.snackbar.open({
-        message: 'Log out clicked',
-        queue: false
-      })
+      // $buefy.snackbar.open({
+      //   message: 'Log out clicked',
+      //   queue: false
+      // })
+
+      try {
+        fetch("http://localhost:3000/api/usuarios/logout", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            router.push('/login')
+          });
+      } catch (e) {
+        //this.$store.dispatch("setAuth", false);
+      }
+
     }
 
     return {

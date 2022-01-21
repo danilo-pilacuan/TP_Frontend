@@ -148,7 +148,14 @@ const routes = [
     name: 'Activo',
     component: () => import('@/views/ActivoFicha.vue')
   },
-
+  {
+    meta: {
+      title: 'TipoMantenimiento'
+    },
+    path: '/TipoMantenimiento',
+    name: 'TipoMantenimiento',
+    component: () => import('@/views/TipoMantenimiento.vue')
+  },
   //fin rutas cruds
   {
     path: '/full-page',

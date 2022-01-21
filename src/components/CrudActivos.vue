@@ -153,7 +153,7 @@
             </div>
             <div class="columns">
               <div class="column">
-                <b-field label="Prioridad">
+                <b-field label="Prioridad (Criticidad)">
                   <b-select
                     placeholder="Seleccionar Prioridad"
                     v-model="inputPrioridad"
@@ -163,7 +163,7 @@
                       :value="option.id"
                       :key="option.id"
                     >
-                      {{ option.denominacion }}
+                      {{option.codigoPrioridad}} ({{ option.denominacion }})
                     </option>
                   </b-select>
                 </b-field>
@@ -205,7 +205,7 @@
                 />
               </div>
               <div class="column">
-                <b-button type="is-danger" @click="false" label="Cancelar" />
+                <b-button type="is-danger" @click="showModalCreateEdit=false" label="Cancelar" />
               </div>
             </div>
           </footer>

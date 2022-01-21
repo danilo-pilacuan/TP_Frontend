@@ -1,7 +1,8 @@
 <template>
   <div>
+    <SecurityComponent/>
     <title-bar :title-stack="titleStack" />
-    <hero-bar> Activo </hero-bar>
+    <hero-bar>Ficha Activo </hero-bar>
     <section class="section is-main-section">
       <tiles>
         <card-component
@@ -35,12 +36,20 @@
           </b-field>
           <b-field horizontal label="">
             <b-button
+            type="is-warning"
+            size="is-big"
+            @click.prevent="trashModalOpen(props.row)"
+          >
+            Actualizar Manual
+          </b-button> 
+          <b-button
             type="is-link"
             size="is-big"
             @click.prevent="trashModalOpen(props.row)"
           >
             Descargar Manual
           </b-button> 
+          
           </b-field>
           <b-field horizontal label="">
             
@@ -49,12 +58,50 @@
 
         <card-component title="Imagen" icon="image" class="tile is-child"> 
           
-            <b-image
+            <b-carousel>
+        <b-carousel-item >
+                <b-image
             src="https://img.pe.class.posot.com/es_pe/2019/08/26/Cizalla-Mltiple-Original-peddinhaus-20190826224323.jpg"
             alt="The Buefy Logo"
             ratio="600by600"
             :rounded="false"
         ></b-image>
+        </b-carousel-item>
+        <b-carousel-item >
+                <b-image
+            src="https://img.directindustry.es/images_di/photo-m2/166041-14470063.jpg"
+            alt="The Buefy Logo"
+            ratio="600by600"
+            :rounded="false"
+        ></b-image>
+        </b-carousel-item>
+        <b-carousel-item >
+                <b-image
+            src="https://img.directindustry.es/images_di/photo-m2/166041-14949883.webp"
+            alt="The Buefy Logo"
+            ratio="600by600"
+            :rounded="false"
+        ></b-image>
+        </b-carousel-item>
+        <b-carousel-item >
+                <b-image
+            src="http://img.interempresas.net/FotosArtProductos/P166055.jpg"
+            alt="The Buefy Logo"
+            ratio="600by600"
+            :rounded="false"
+        ></b-image>
+        </b-carousel-item>
+        <b-carousel-item >
+                <b-image
+            src="https://img.directindustry.es/images_di/photo-g/163359-12864602.jpg"
+            alt="The Buefy Logo"
+            ratio="600by600"
+            :rounded="false"
+        ></b-image>
+        </b-carousel-item>
+
+    </b-carousel>
+
         </card-component>
       </tiles>
       <card-component title="Historial de Mantenimiento" icon="book">
@@ -136,7 +183,7 @@ import Tiles from "@/components/Tiles.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import ProfileUpdateForm from "@/components/ProfileUpdateForm.vue";
 import PasswordUpdateForm from "@/components/PasswordUpdateForm.vue";
-
+import SecurityComponent from "@/components/SecurityComponent.vue"
 export default {
   name: "Tables",
   components: {
@@ -148,6 +195,7 @@ export default {
     UserAvatar,
     PasswordUpdateForm,
     ProfileUpdateForm,
+    SecurityComponent
   },
   data() {
     return {
