@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SecurityComponent/>
+    <SecurityComponent />
     <title-bar :title-stack="titleStack" />
     <hero-bar>Ficha Activo </hero-bar>
     <section class="section is-main-section">
@@ -26,93 +26,91 @@
             <b-input v-model="datosActivo.numSerie" name="numSerie" disabled />
           </b-field>
           <b-field horizontal label="Área">
-            <b-input v-model="datosActivo.Area.descripcion" name="area" disabled />
+            <b-input
+              v-model="datosActivo.Area.descripcion"
+              name="area"
+              disabled
+            />
           </b-field>
           <b-field horizontal label="Prioridad">
-            <b-input v-model="datosActivo.Prioridad.denominacion" name="prioridad" disabled />
+            <b-input
+              v-model="datosActivo.Prioridad.denominacion"
+              name="prioridad"
+              disabled
+            />
           </b-field>
           <b-field horizontal label="Categoría">
-            <b-input v-model="datosActivo.Categoria.descripcion" name="categoria" disabled />
+            <b-input
+              v-model="datosActivo.Categoria.descripcion"
+              name="categoria"
+              disabled
+            />
           </b-field>
-          <b-field horizontal label="">
+          <div class="no-print">
+            <CrudManuales :idActivo="idActivo"/>
+          </div>
+          <!-- <b-field horizontal label="">
             <b-button
-            type="is-warning"
-            size="is-big"
-            @click.prevent="trashModalOpen(props.row)"
-          >
-            Actualizar Manual
-          </b-button> 
-          <b-button
-            type="is-link"
-            size="is-big"
-            @click.prevent="trashModalOpen(props.row)"
-          >
-            Descargar Manual
-          </b-button> 
-          
-          </b-field>
-          <b-field horizontal label="">
-            
-          </b-field>
+              type="is-warning"
+              size="is-big"
+            >
+              Actualizar Manual
+            </b-button>
+            <b-button
+              type="is-link"
+              size="is-big"
+            >
+              Descargar Manual
+            </b-button>
+          </b-field> -->
         </card-component>
 
-        <card-component title="Imagen" icon="image" class="tile is-child"> 
-          
-            <b-carousel>
-        <b-carousel-item >
-                <b-image
-            src="https://img.pe.class.posot.com/es_pe/2019/08/26/Cizalla-Mltiple-Original-peddinhaus-20190826224323.jpg"
-            alt="The Buefy Logo"
-            ratio="600by600"
-            :rounded="false"
-        ></b-image>
-        </b-carousel-item>
-        <b-carousel-item >
-                <b-image
-            src="https://img.directindustry.es/images_di/photo-m2/166041-14470063.jpg"
-            alt="The Buefy Logo"
-            ratio="600by600"
-            :rounded="false"
-        ></b-image>
-        </b-carousel-item>
-        <b-carousel-item >
-                <b-image
-            src="https://img.directindustry.es/images_di/photo-m2/166041-14949883.webp"
-            alt="The Buefy Logo"
-            ratio="600by600"
-            :rounded="false"
-        ></b-image>
-        </b-carousel-item>
-        <b-carousel-item >
-                <b-image
-            src="http://img.interempresas.net/FotosArtProductos/P166055.jpg"
-            alt="The Buefy Logo"
-            ratio="600by600"
-            :rounded="false"
-        ></b-image>
-        </b-carousel-item>
-        <b-carousel-item >
-                <b-image
-            src="https://img.directindustry.es/images_di/photo-g/163359-12864602.jpg"
-            alt="The Buefy Logo"
-            ratio="600by600"
-            :rounded="false"
-        ></b-image>
-        </b-carousel-item>
+        <card-component title="Imagenes" icon="image" class="tile is-child no-print">
+          <div class="card" >
+            <header class="card-header">
+              <file-picker type="is-info" class="mt-1 mx-1 mb-1" :idActivo="datosActivo.id" @upload="imgSubida"/>
 
-    </b-carousel>
-
+              
+            </header>
+            <div class="card-content" v-if="hayImgs">
+              <b-carousel>
+                <b-carousel-item v-for="imagen in tablaImagenes" :key="imagen.id">
+                  <div class="card-image">
+                    <figure class="image is-1by1">
+                      <img
+                        :src="'http://localhost:3000/'+imagen.url"
+                        alt=""
+                      />
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <b-button
+                        type="is-danger"
+                        size="is-big"
+                        @click="eliminarImagen(imagen.id)"
+                      >
+                        Eliminar Imagen
+                      </b-button>
+                    </div>
+                  </div>
+                </b-carousel-item>
+                              
+               
+              </b-carousel>
+            </div>
+          </div>
         </card-component>
       </tiles>
       <card-component title="Historial de Mantenimiento" icon="book">
         <b-button
-            type="is-success"
-            size="is-big"
-            @click.prevent="trashModalOpen(props.row)"
-          >
-            Descargar Informe
-          </b-button> 
-          <b-table
+          type="is-success"
+          size="is-big"
+          @click.prevent="imprimirInforme()"
+        >
+          Imprimir Informe
+        </b-button>
+        <b-table
           :data="tablaTareas"
           :bordered="true"
           :striped="true"
@@ -136,6 +134,7 @@
                   placeholder="Buscar..."
                   icon="magnify"
                   size="is-small"
+                  class="no-print"
                 />
               </template>
               <template v-slot="props">
@@ -168,8 +167,7 @@
             </div>
           </b-table-column> -->
         </b-table>
-
-           </card-component>
+      </card-component>
     </section>
   </div>
 </template>
@@ -183,7 +181,10 @@ import Tiles from "@/components/Tiles.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import ProfileUpdateForm from "@/components/ProfileUpdateForm.vue";
 import PasswordUpdateForm from "@/components/PasswordUpdateForm.vue";
-import SecurityComponent from "@/components/SecurityComponent.vue"
+import SecurityComponent from "@/components/SecurityComponent.vue";
+import FilePicker from '@/components/FilePicker.vue'
+import CrudManuales from '@/components/CrudManuales.vue'
+
 export default {
   name: "Tables",
   components: {
@@ -195,15 +196,19 @@ export default {
     UserAvatar,
     PasswordUpdateForm,
     ProfileUpdateForm,
-    SecurityComponent
+    SecurityComponent,
+    FilePicker,
+    CrudManuales
   },
   data() {
     return {
       titleStack: ["Administración", "Activo"],
-      idActivo: 0,
-      userName:"sda",
-      tablaTareas:[],
-      columns:[
+      idActivo: 1,
+      userName: "sda",
+      tablaTareas: [],
+      tablaImagenes: [],
+      hayImgs: false,
+      columns: [
         {
           field: "descripcion",
           label: "Descripción",
@@ -238,30 +243,78 @@ export default {
           label: "Estado Mantenimiento",
           searchable: true,
         },
-        
       ],
-      datosActivo:{
-          nombre:"",
-          etiqueta:"",
-          codigo:"",
-          modelo:"",
-          numSerie:"",
-          Area:{
-              descripcion:""
-          },
-          Prioridad:{
-              denominacion:""
-          },
-          Categoria:{
-              descripcion:""
-          }
-      }
+      datosActivo: {
+        nombre: "",
+        etiqueta: "",
+        codigo: "",
+        modelo: "",
+        numSerie: "",
+        Area: {
+          descripcion: "",
+        },
+        Prioridad: {
+          denominacion: "",
+        },
+        Categoria: {
+          descripcion: "",
+        },
+      },
     };
   },
   methods: {
-      fetchActivo() {
+    imprimirInforme()
+    {
+      window.print();
+    },
+    eliminarImagen(idImagen){
+      fetch("http://localhost:3000/API/imagenes/" + idImagen.toString(), {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          var resp = data.message;
+          this.$buefy.dialog.alert("Imagen eliminada correctamente"); 
+          this.fetchImagenes()
+        });
+    },
+    imgSubida(){
+        this.$buefy.dialog.alert("Imagen agregada correctamente");
+        this.fetchImagenes()
+
+    },
+    fetchImagenes(){
       try {
-        fetch("http://localhost:3000/API/Activos/"+this.idActivo, {
+        fetch("http://localhost:3000/API/imagenes/activo/" + this.idActivo, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+
+            if (data) {
+              this.tablaImagenes = data["resultado"];
+              if(this.tablaImagenes.length>0)
+              {
+                this.hayImgs=true;
+              }
+              console.log(this.tablaImagenes);
+            } else {
+              //this.$router.push("/login")
+              this.tablaImagenes = null;
+            }
+          });
+      } catch (e) {
+        //this.$store.dispatch("setAuth", false);
+      }
+    },
+    fetchActivo() {
+      try {
+        fetch("http://localhost:3000/API/Activos/" + this.idActivo, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -272,8 +325,8 @@ export default {
 
             if (data) {
               this.datosActivo = data["resultado"];
-              this.tablaTareas=this.datosActivo.Tareas
-              console.log(this.datosActivo)
+              this.tablaTareas = this.datosActivo.Tareas;
+              console.log(this.datosActivo);
             } else {
               //this.$router.push("/login")
               this.datosActivo = null;
@@ -284,13 +337,25 @@ export default {
       }
     },
   },
-  mounted() {
+  beforeMount(){
     this.idActivo = this.$route.params.id;
-    console.log("The id is: " + this.idActivo);
-    this.fetchActivo()
   },
-  created(){
-      
-  }
+  mounted() {
+    
+    console.log("The id is: " + this.idActivo);
+    this.fetchActivo();
+    this.fetchImagenes();
+  },
+  created() {},
 };
 </script>
+
+<style>
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+</style>

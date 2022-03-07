@@ -1,5 +1,5 @@
 <template>
-  <section class="section is-title-bar">
+  <section class="section is-title-bar no-print">
     <div class="level">
       <div class="level-left">
         <div class="level-item">
@@ -45,3 +45,13 @@ export default {
   }
 }
 </script>
+
+<style>
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+</style>

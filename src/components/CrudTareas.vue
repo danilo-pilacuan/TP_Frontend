@@ -103,6 +103,28 @@
 
             <div class="columns">
               <div class="column">
+                <b-field label="Número de Responsables">
+                    <b-numberinput v-model="inputNumeroResponsables" placeholder="0"></b-numberinput>
+                </b-field>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column">
+                <b-field label="Horas Hombre">
+                    <b-numberinput v-model="inputHorasHombre" placeholder="0"></b-numberinput>
+                </b-field>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column">
+                <b-field label="Costo por Hora">
+                    <b-numberinput v-model="inputCostoHora" step="0.01" placeholder="0"></b-numberinput>
+                </b-field>
+              </div>
+            </div>
+
+            <!-- <div class="columns">
+              <div class="column">
                 <b-field label="Fecha Inicio">
                     <b-datepicker
                         v-model="inputFechaInicio"
@@ -125,9 +147,9 @@
                     <b-numberinput v-model="inputSemanaInicial" placeholder="0"></b-numberinput>
                 </b-field>
               </div>
-            </div>
+            </div> -->
 
-            <div class="columns">
+            <!-- <div class="columns">
               <div class="column">
                 <b-field label="Activo">
                     <b-autocomplete
@@ -161,7 +183,7 @@
                     </b-autocomplete>                    
                 </b-field>
               </div>
-            </div>
+            </div> -->
 
             <div class="columns">
               <div class="column">
@@ -214,6 +236,7 @@
                     >
                     </b-autocomplete>                    
                 </b-field>
+                <br><br><br><br><br><br>
               </div>
             </div>
 
@@ -256,22 +279,22 @@ export default {
     HeroBar
   },
   computed: {
-        filterActivos() {
-            return this.tablaActivos.filter((option) => {
-                    return option.nombre
-                        .toString()
-                        .toLowerCase()
-                        .indexOf(this.inputBuscarActivo.toLowerCase()) >= 0
-                })
-        },
-        filterTrabajadores() {
-            return this.tablaTrabajadores.filter((option) => {
-                    return (option.apellidos
-                        .toString()
-                        .toLowerCase()
-                        .indexOf(this.inputBuscarTrabajador.toLowerCase()) >= 0) 
-                })
-        },
+        // filterActivos() {
+        //     return this.tablaActivos.filter((option) => {
+        //             return option.nombre
+        //                 .toString()
+        //                 .toLowerCase()
+        //                 .indexOf(this.inputBuscarActivo.toLowerCase()) >= 0
+        //         })
+        // },
+        // filterTrabajadores() {
+        //     return this.tablaTrabajadores.filter((option) => {
+        //             return (option.apellidos
+        //                 .toString()
+        //                 .toLowerCase()
+        //                 .indexOf(this.inputBuscarTrabajador.toLowerCase()) >= 0) 
+        //         })
+        // },
         filterPeriodicidad() {
             return this.tablaPeriodicidades.filter((option) => {
                     return option.descripcion
@@ -314,6 +337,10 @@ export default {
         inputEstadoMantenimiento:null,
         inputTipoMantenimiento:null,
 
+        inputCostoHora:null,
+        inputHorasHombre:null,
+        inputNumeroResponsables:null,
+
         inputBuscarActivo:"",
         inputBuscarTrabajador:"",
         inputBuscarPeriodicidad:"",
@@ -345,33 +372,48 @@ export default {
           label: "Descripción",
           searchable: true,
         },
+        // {
+        //   field: "fechaInicio",
+        //   label: "Fecha Inicio",
+        //   searchable: true,
+        // },
+        // {
+        //   field: "semanaInicial",
+        //   label: "Semana Inicial",
+        //   searchable: true
+        // },
+        // {
+        //   field: "Activo",
+        //   subField: "nombre",
+        //   label: "Activo",
+        //   searchable: true
+        // },
+        // {
+        //   field: "Trabajador",
+        //   subField:"nombres",
+        //   label: "Nombres Responsable",
+        //   searchable: true
+        // },
+        // {
+        //   field: "Trabajador",
+        //   subField:"apellidos",
+        //   label: "Apellidos Responsable",
+        //   searchable: true
+        // },
         {
-          field: "fechaInicio",
-          label: "Fecha Inicio",
+          field: "numeroResponsables",
+          label: "Número Responsables",
           searchable: true,
         },
         {
-          field: "semanaInicial",
-          label: "Semana Inicial",
-          searchable: true
+          field: "horasHombre",
+          label: "Horas Hombre",
+          searchable: true,
         },
         {
-          field: "Activo",
-          subField: "nombre",
-          label: "Activo",
-          searchable: true
-        },
-        {
-          field: "Trabajador",
-          subField:"nombres",
-          label: "Nombres Responsable",
-          searchable: true
-        },
-        {
-          field: "Trabajador",
-          subField:"apellidos",
-          label: "Apellidos Responsable",
-          searchable: true
+          field: "costoHora",
+          label: "Costo Hora",
+          searchable: true,
         },
         {
           field: "Periodicidad",
@@ -415,10 +457,10 @@ export default {
     //llamados fetch @todo cambiar9
     
     this.fetchDatos()
-    this.fetchTrabajadores()
+    //this.fetchTrabajadores()
     this.fetchPeriodicidades()
     this.fetchEstadosMantenimiento()
-    this.fetchActivos()
+    //this.fetchActivos()
     this.fetchTipoMantenimiento()
     
   },
@@ -449,32 +491,32 @@ export default {
     
     //Fetchs adicionales @todo cambiar10
 
-    fetchTrabajadores() {
-      try {
-        fetch("http://localhost:3000/API/trabajadores", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            var resp = data;
+    // fetchTrabajadores() {
+    //   try {
+    //     fetch("http://localhost:3000/API/trabajadores", {
+    //       method: "GET",
+    //       headers: { "Content-Type": "application/json" },
+    //       credentials: "include",
+    //     })
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         var resp = data;
 
-            if (data) {
-              this.tablaTrabajadores = data["resultado"];
-              //this.tablaActivos.forEach(element => console.log(element.nombre));
-              this.tablaTrabajadores.forEach(element => {
-                  element.campoDisplay=element.nombres +" "+element.apellidos
-              });
-            } else {
-              //this.$router.push("/login")
-              this.tablaTrabajadores = [];
-            }
-          });
-      } catch (e) {
-        //this.$store.dispatch("setAuth", false);
-      }
-    },
+    //         if (data) {
+    //           this.tablaTrabajadores = data["resultado"];
+    //           //this.tablaActivos.forEach(element => console.log(element.nombre));
+    //           // this.tablaTrabajadores.forEach(element => {
+    //           //     element.campoDisplay=element.nombres +" "+element.apellidos
+    //           // });
+    //         } else {
+    //           //this.$router.push("/login")
+    //           this.tablaTrabajadores = [];
+    //         }
+    //       });
+    //   } catch (e) {
+    //     //this.$store.dispatch("setAuth", false);
+    //   }
+    // },
 
     fetchPeriodicidades() {
       try {
@@ -524,32 +566,32 @@ export default {
       }
     },
 
-    fetchActivos() {
-      try {
-        fetch("http://localhost:3000/API/Activos", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            var resp = data;
+    // fetchActivos() {
+    //   try {
+    //     fetch("http://localhost:3000/API/Activos", {
+    //       method: "GET",
+    //       headers: { "Content-Type": "application/json" },
+    //       credentials: "include",
+    //     })
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         var resp = data;
 
-            if (data) {
-              this.tablaActivos = data["resultado"]
-              this.tablaActivos.forEach(element => {
-                  element.campoDisplay="Nombre: " +element.nombre +" - Código "+element.codigo
-              });
-              //console.log(this.tablaDatos)
-            } else {
-              //this.$router.push("/login")
-              this.tablaActivos = [];
-            }
-          });
-      } catch (e) {
-        //this.$store.dispatch("setAuth", false);
-      }
-    },
+    //         if (data) {
+    //           this.tablaActivos = data["resultado"]
+    //           this.tablaActivos.forEach(element => {
+    //               element.campoDisplay="Nombre: " +element.nombre +" - Código "+element.codigo
+    //           });
+    //           //console.log(this.tablaDatos)
+    //         } else {
+    //           //this.$router.push("/login")
+    //           this.tablaActivos = [];
+    //         }
+    //       });
+    //   } catch (e) {
+    //     //this.$store.dispatch("setAuth", false);
+    //   }
+    // },
 
     fetchTipoMantenimiento() {
       try {
@@ -589,13 +631,16 @@ export default {
             //agregar campos a crear @todo cambiar11
             
             descripcion: this.inputDescripcion,
-            fechaInicio: this.inputFechaInicio,
-            semanaInicial: this.inputSemanaInicial,
-            idActivo: this.inputActivo.id,
-            idTrabajadorResponsable: this.inputTrabajador.id,
+            //fechaInicio: this.inputFechaInicio,
+            //semanaInicial: this.inputSemanaInicial,
+            //idActivo: this.inputActivo.id,
+            //idTrabajadorResponsable: this.inputTrabajador.id,
             idPeriodicidad: this.inputPeriodicidad.id,
             idEstadoMantenimiento: this.inputEstadoMantenimiento.id,
-            idTipoMantenimiento: this.inputTipoMantenimiento.id
+            idTipoMantenimiento: this.inputTipoMantenimiento.id,
+            costoHora: this.inputCostoHora,
+            numeroResponsables: this.inputNumeroResponsables,
+            horasHombre: this.inputHorasHombre,
 
           }),
         })
@@ -637,13 +682,16 @@ export default {
             body: JSON.stringify({
               //agregar campos editados @todo cambiar14
               descripcion: this.inputDescripcion,
-            fechaInicio: this.inputFechaInicio,
-            semanaInicial: this.inputSemanaInicial,
-            idActivo: this.inputActivo.id,
-            idTrabajadorResponsable: this.inputTrabajador.id,
+            //fechaInicio: this.inputFechaInicio,
+            //semanaInicial: this.inputSemanaInicial,
+            //idActivo: this.inputActivo.id,
+            //idTrabajadorResponsable: this.inputTrabajador.id,
             idPeriodicidad: this.inputPeriodicidad.id,
             idEstadoMantenimiento: this.inputEstadoMantenimiento.id,
-            idTipoMantenimiento: this.inputTipoMantenimiento.id
+            idTipoMantenimiento: this.inputTipoMantenimiento.id,
+            costoHora: this.inputCostoHora,
+            numeroResponsables: this.inputNumeroResponsables,
+            horasHombre: this.inputHorasHombre,
             }),
           }
         )
@@ -687,10 +735,10 @@ export default {
         // this.inputEstadoMantenimiento=null,
         // this.inputTipoMantenimiento=null,
         console.log(row)
-        this.inputActivo=row.idActivo
-        this.inputBuscarActivo="Nombre: " +row.Activo.nombre +" - Código "+row.Activo.codigo
-        this.inputTrabajador=row.Trabajador
-        this.inputBuscarTrabajador=row.Trabajador.nombres +" "+row.Trabajador.apellidos
+        //this.inputActivo=row.idActivo
+        //this.inputBuscarActivo="Nombre: " +row.Activo.nombre +" - Código "+row.Activo.codigo
+        //this.inputTrabajador=row.Trabajador
+        //this.inputBuscarTrabajador=row.Trabajador.nombres +" "+row.Trabajador.apellidos
         this.inputPeriodicidad=row.Periodicidad
         this.inputBuscarPeriodicidad=row.Periodicidad.descripcion
         this.inputEstadoMantenimiento=row.EstadoMantenimiento
@@ -717,16 +765,16 @@ export default {
           var resp = data.message;
           //limpiar campos form @todo cambiar18
           this.inputDescripcion=null,
-            this.inputFechaInicio=null,
-            this.inputSemanaInicial=null,
-            this.inputActivo=null,
-            this.inputTrabajador=null,
+            //this.inputFechaInicio=null,
+            //this.inputSemanaInicial=null,
+            //this.inputActivo=null,
+            //this.inputTrabajador=null,
             this.inputPeriodicidad=null,
             this.inputEstadoMantenimiento=null,
             this.inputTipoMantenimiento=null,
-            this.inputBuscarActivo="",
-            this.inputBuscarTrabajador="",
-            this.inputBuscarPeriodicidad="",
+            //this.inputBuscarActivo="",
+            //this.inputBuscarTrabajador="",
+            //this.inputBuscarPeriodicidad="",
             this.inputBuscarEstadoMantenimiento="",
             this.inputBuscarTipoMantenimiento="",
           //cerrar form

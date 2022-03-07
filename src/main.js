@@ -20,7 +20,7 @@ Vue.use(VueCompositionAPI)
 store.dispatch('fetch', 'clients')
 
 /* Default title tag */
-const defaultDocumentTitle = 'Admin One Bulma Buefy'
+const defaultDocumentTitle = 'Sistema de Mantenimiento EEQ'
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.afterEach(to => {

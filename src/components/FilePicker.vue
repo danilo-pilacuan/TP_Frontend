@@ -21,70 +21,81 @@
     <span
       v-if="file"
       class="file-name"
-    >{{ file.name }}</span>
+    >{{ file.name }}
+    </span>
+
+    <b-button class="mx-1"
+    v-if="file"
+                type="is-success"
+                size="is-big"
+                @click="cargarImagen"
+              >
+                Cargar
+              </b-button>
   </b-field>
 </template>
 
 <script>
-import { computed, ref } from '@vue/composition-api'
 
+///////////////////////////////////
 export default {
-  name: 'FilePicker',
   props: {
     accept: {
       type: String,
-      default: null
+      default: "image/*"
     },
     type: {
       type: String,
       default: 'is-primary'
+    },
+    idActivo:{
+      default: 1
     }
   },
-  emits: ['input'],
-  setup (props, { emit }) {
-    const buttonLabel = computed(() => file.value ? 'Pick another file' : 'Pick a file')
-
-    const file = ref(null)
-
-    const upload = value => {
-      file.value = value
-
-      emit('input', value)
-
-      // Use this as an example for handling file uploads
-      // let formData = new FormData()
-      // formData.append('file', file.value)
-
-      // const mediaStoreRoute = `/your-route/`
-
-      // axios
-      //   .post(mediaStoreRoute, formData, {
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data'
-      //     },
-      //     onUploadProgress: progressEvent
-      //   })
-      //   .then(r => {
-      //
-      //   })
-      //   .catch(err => {
-      //
-      //   })
-    }
-
-    // const uploadPercent = ref(0)
-    //
-    // const progressEvent = progressEvent => {
-    //   uploadPercent.value = Math.round(
-    //     (progressEvent.loaded * 100) / progressEvent.total
-    //   )
-    // }
-
+  data() {
     return {
-      buttonLabel,
-      file,
-      upload
+      buttonLabel: "Cargar Imagen",
+      file: null,
+      hasFile:false
+    }
+  },
+  methods: {
+    cargarImagen() {
+
+      let formData = new FormData()
+      formData.append('image', this.file.value)
+      formData.append('idActivo',this.idActivo)
+
+     ///////////////////////////////////
+
+    fetch("http://localhost:3000/API/imagenes", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data.resultado;
+            this.file = null
+            console.log(resp);  
+            this.buttonLabel= "Cargar Imagen" 
+            //emit('upload', value);
+            this.$emit('upload')
+          });
+
+    },
+    upload(e){
+      this.file.value = e
+      console.log(this.file)
+      this.hasFile = true
+      this.buttonLabel=this.file.value ? 'Escoger otra Imagen' : 'Cargar Imagen'
+
     }
   }
 }
+///////////////////////////////////
+
+
+
+
+
 </script>

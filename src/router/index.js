@@ -156,6 +156,46 @@ const routes = [
     name: 'TipoMantenimiento',
     component: () => import('@/views/TipoMantenimiento.vue')
   },
+  {
+    meta: {
+      title: 'Mantenimiento'
+    },
+    path: '/Mantenimiento',
+    name: 'Mantenimiento',
+    component: () => import('@/views/Mantenimiento.vue')
+  },
+  {
+    meta: {
+      title: 'Materiales'
+    },
+    path: '/Materiales',
+    name: 'Materiales',
+    component: () => import('@/views/Materiales.vue')
+  },
+  {
+    meta: {
+      title: 'Costos'
+    },
+    path: '/Costos',
+    name: 'Costos',
+    component: () => import('@/views/Costos.vue')
+  },
+  {
+    meta: {
+      title: 'Crear Orden Trabajo'
+    },
+    path: '/ordentrabajocrear/',
+    name: 'CrearOrdenTrabajo',
+    component: () => import('@/views/FormOrdenTrabajo.vue')
+  },
+  {
+    meta: {
+      title: 'Mostrar Orden Trabajo'
+    },
+    path: '/Ordenes/:id',
+    name: 'MostrarOrdenTrabajo',
+    component: () => import('@/views/FormOrdenTrabajoShow.vue')
+  },
   //fin rutas cruds
   {
     path: '/full-page',

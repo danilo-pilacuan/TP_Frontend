@@ -2,7 +2,7 @@
   <nav
     v-show="isNavBarVisible"
     id="navbar-main"
-    class="navbar is-fixed-top"
+    class="navbar is-fixed-top no-print"
   >
     <div class="navbar-brand">
       <a
@@ -81,7 +81,7 @@
           </div>
         </nav-bar-menu> -->
         <nav-bar-menu class="has-divider has-user-avatar">
-          <user-avatar />
+          <!-- <user-avatar /> -->
           <div class="is-user-name">
             <span>Administrador</span>
           </div>
@@ -101,15 +101,15 @@
               />
               <span>Mi perfil</span>
             </router-link>
-            <a class="navbar-item">
+            <!-- <a class="navbar-item">
               <b-icon
                 icon="settings"
                 custom-size="default"
               />
               <span>Configuración</span>
-            </a>
+            </a> -->
             <hr class="navbar-divider">
-            <a class="navbar-item">
+            <a class="navbar-item" @click="logout">
               <b-icon
                 icon="logout"
                 custom-size="default"
@@ -224,3 +224,13 @@ export default {
   }
 }
 </script>
+
+<style>
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+</style>

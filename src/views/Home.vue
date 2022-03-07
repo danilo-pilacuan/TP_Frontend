@@ -46,12 +46,7 @@
           v-if="chartData"
           class="chart-area"
         >
-          <line-chart
-            ref="bigChart"
-            style="height: 100%;"
-            chart-id="big-line-chart"
-            :chart-data="chartData"
-            :extra-options="chartOptions"
+          <ChartCostos
           />
         </div>
       </card-component>
@@ -73,12 +68,13 @@ import LineChart from '@/components/Charts/LineChart.vue'
 import ClientsTableSample from '@/components/ClientsTableSample.vue'
 import Notification from '@/components/Notification.vue'
 import SecurityComponent from "@/components/SecurityComponent.vue"
+import ChartCostos from "@/components/ChartCostos.vue"
 
 export default {
   name: 'Home',
   components: {
     ClientsTableSample,
-    LineChart,
+    ChartCostos,
     CardComponent,
     CardWidget,
     Tiles,

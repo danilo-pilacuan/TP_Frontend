@@ -16,12 +16,12 @@ export default [
       //updateMark: true
     },
     {
-      // to: '/forms',
+       to: '/Mantenimiento',
       label: 'Mantenimiento',
       icon: 'wrench'
     },
     {
-      // to: '/forms',
+      to: '/Costos',
       label: 'Informes Costos',
       icon: 'book-open-page-variant'
     },
@@ -58,6 +58,11 @@ export default [
         {
           to: '/periodicidades',
           label: 'Periodicidades',
+          icon: 'plus',
+        },
+        {
+          to: '/Materiales',
+          label: 'Materiales',
           icon: 'plus',
         },
         {
