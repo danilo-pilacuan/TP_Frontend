@@ -78,7 +78,7 @@
                   <div class="card-image">
                     <figure class="image is-1by1">
                       <img
-                        :src="'http://localhost:3000/'+imagen.url"
+                        :src="apiurl+imagen.url"
                         alt=""
                       />
                     </figure>
@@ -208,6 +208,7 @@ export default {
       tablaTareas: [],
       tablaImagenes: [],
       hayImgs: false,
+      apiurl:process.env.VUE_APP_TITLE,
       columns: [
         {
           field: "descripcion",
@@ -268,7 +269,7 @@ export default {
       window.print();
     },
     eliminarImagen(idImagen){
-      fetch("http://localhost:3000/API/imagenes/" + idImagen.toString(), {
+      fetch(process.env.VUE_APP_TITLE+"API/imagenes/" + idImagen.toString(), {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -287,7 +288,7 @@ export default {
     },
     fetchImagenes(){
       try {
-        fetch("http://localhost:3000/API/imagenes/activo/" + this.idActivo, {
+        fetch(process.env.VUE_APP_TITLE+"API/imagenes/activo/" + this.idActivo, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -313,8 +314,10 @@ export default {
       }
     },
     fetchActivo() {
+      console.log('process.env.VUE_APP_TITLE+"API/Activos/" + this.idActivo')
+      console.log(process.env.VUE_APP_TITLE+"API/Activos/" + this.idActivo)
       try {
-        fetch("http://localhost:3000/API/Activos/" + this.idActivo, {
+        fetch(process.env.VUE_APP_TITLE+"API/Activos/" + this.idActivo, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -324,8 +327,11 @@ export default {
             var resp = data;
 
             if (data) {
+              console.log("this.datosActivo");
+              console.log(this.datosActivo);
               this.datosActivo = data["resultado"];
               this.tablaTareas = this.datosActivo.Tareas;
+
               console.log(this.datosActivo);
             } else {
               //this.$router.push("/login")

@@ -194,7 +194,7 @@ export default {
       // })
 
       try {
-        fetch("http://localhost:3000/api/usuarios/logout", {
+        fetch(process.env.VUE_APP_TITLE+"API/usuarios/logout", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

@@ -512,7 +512,7 @@ export default {
   methods: {
     fetchDatos() {
       try {
-        fetch("http://localhost:3000/API/"+this.prefixRuta, {
+        fetch(process.env.VUE_APP_TITLE+"API/"+this.prefixRuta, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -542,7 +542,7 @@ export default {
     },
     submit() {
       if (this.isAdd) {
-        fetch("http://localhost:3000/API/"+this.prefixRuta, {
+        fetch(process.env.VUE_APP_TITLE+"API/"+this.prefixRuta, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -589,7 +589,7 @@ export default {
           });
       } else if (this.isEdit) {
         fetch(
-          "http://localhost:3000/API/"+this.prefixRuta+"/" + this.idSeleccionado.toString(),
+          process.env.VUE_APP_TITLE+"API/"+this.prefixRuta+"/" + this.idSeleccionado.toString(),
           {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -656,7 +656,7 @@ export default {
     },
     deleteFunction(row) {
       const idDel = row.id;
-      fetch("http://localhost:3000/API/"+this.prefixRuta+"/" + idDel.toString(), {
+      fetch(process.env.VUE_APP_TITLE+"API/"+this.prefixRuta+"/" + idDel.toString(), {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

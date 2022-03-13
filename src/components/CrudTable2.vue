@@ -232,7 +232,7 @@ export default {
       idSeleccionado: null,
       //info entidad
       nombreEntidad: "Activo",
-      uri: "http://localhost:3000/API/activos",
+      uri: process.env.VUE_APP_TITLE+"API/activos",
       //tablas Datos
       tablaDatos: [],
       //columnas tabla Datos
@@ -330,7 +330,7 @@ export default {
     },
     fetchAreas() {
       try {
-        fetch("http://localhost:3000/API/areas", {
+        fetch(process.env.VUE_APP_TITLE+"API/areas", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -352,7 +352,7 @@ export default {
     },
     fetchCategorias() {
       try {
-        fetch("http://localhost:3000/API/categorias", {
+        fetch(process.env.VUE_APP_TITLE+"API/categorias", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -374,7 +374,7 @@ export default {
     },
     fetchPrioridades() {
       try {
-        fetch("http://localhost:3000/API/prioridades", {
+        fetch(process.env.VUE_APP_TITLE+"API/prioridades", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -398,7 +398,7 @@ export default {
     },
     submit() {
       if (this.isAdd) {
-        fetch("http://localhost:3000/api/Activos", {
+        fetch(process.env.VUE_APP_TITLE+"API/Activos", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -440,7 +440,7 @@ export default {
           });
       } else if (this.isEdit) {
         fetch(
-          "http://localhost:3000/api/Activos/" + this.idSeleccionado.toString(),
+          process.env.VUE_APP_TITLE+"API/Activos/" + this.idSeleccionado.toString(),
           {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -495,7 +495,7 @@ export default {
     },
     deleteFunction(row) {
       const idDel = row.id;
-      fetch("http://localhost:3000/api/Activos/" + idDel.toString(), {
+      fetch(process.env.VUE_APP_TITLE+"API/Activos/" + idDel.toString(), {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

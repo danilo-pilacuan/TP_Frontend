@@ -99,7 +99,7 @@ export default {
   methods:{
     submit(){
       this.isLoading = true
-      fetch("http://localhost:3000/api/usuarios/login", {
+      fetch(process.env.VUE_APP_TITLE+"API/usuarios/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

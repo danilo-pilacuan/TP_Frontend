@@ -68,7 +68,7 @@ export default {
 
      ///////////////////////////////////
 
-    fetch("http://localhost:3000/API/imagenes", {
+    fetch(process.env.VUE_APP_TITLE+"API/imagenes", {
           method: "POST",
           body: formData,
         })

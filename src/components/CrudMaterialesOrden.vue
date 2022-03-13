@@ -310,7 +310,7 @@ export default {
             //this.$buefy.dialog.alert("Tarea agregada correctamente"); 
           if(this.inputCantidad>0)
           {
-            fetch("http://localhost:3000/API/ordenMateriales", {
+            fetch(process.env.VUE_APP_TITLE+"API/ordenMateriales", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -354,8 +354,8 @@ export default {
     fetchDatos() {
       console.log("PRETRY")
       try {
-        console.log("http://localhost:3000/API/ordenTareas/orden/"+this.ordenTrabajoCreada.id)
-        fetch("http://localhost:3000/API/ordentrabajo/"+this.ordenTrabajoCreada.id, {
+        console.log(process.env.VUE_APP_TITLE+"API/ordenTareas/orden/"+this.ordenTrabajoCreada.id)
+        fetch(process.env.VUE_APP_TITLE+"API/ordentrabajo/"+this.ordenTrabajoCreada.id, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -380,7 +380,7 @@ export default {
     },
     fetchMaterialesGeneral() {
       try {
-        fetch("http://localhost:3000/API/materiales/", {
+        fetch(process.env.VUE_APP_TITLE+"API/materiales/", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -410,7 +410,7 @@ export default {
     },
     submit() {
       if (this.isAdd) {
-        fetch("http://localhost:3000/API/"+this.prefixRuta, {
+        fetch(process.env.VUE_APP_TITLE+"API/"+this.prefixRuta, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -446,7 +446,7 @@ export default {
           });
       } else if (this.isEdit) {
         fetch(
-          "http://localhost:3000/API/"+this.prefixRuta+"/" + this.idSeleccionado.toString(),
+          process.env.VUE_APP_TITLE+"API/"+this.prefixRuta+"/" + this.idSeleccionado.toString(),
           {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -494,7 +494,7 @@ export default {
       console.log("DELDELDELDEL")
       console.log(rowDel)
 
-      fetch("http://localhost:3000/API/ordenMateriales/byom",
+      fetch(process.env.VUE_APP_TITLE+"API/ordenMateriales/byom",
           {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },

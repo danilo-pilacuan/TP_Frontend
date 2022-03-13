@@ -332,7 +332,7 @@ export default {
     },
     fetchTrabajadores() {
       try {
-        fetch("http://localhost:3000/API/trabajadores", {
+        fetch(process.env.VUE_APP_TITLE+"API/trabajadores", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -360,7 +360,7 @@ export default {
 
     fetchActivos() {
       try {
-        fetch("http://localhost:3000/API/Activos", {
+        fetch(process.env.VUE_APP_TITLE+"API/Activos", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -387,7 +387,7 @@ export default {
     },
     fetchAreas() {
       try {
-        fetch("http://localhost:3000/API/Areas", {
+        fetch(process.env.VUE_APP_TITLE+"API/Areas", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -410,7 +410,7 @@ export default {
     },
     fetchTalleres() {
       try {
-        fetch("http://localhost:3000/API/taller", {
+        fetch(process.env.VUE_APP_TITLE+"API/taller", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -438,7 +438,7 @@ export default {
 
     submit() {
 
-        fetch("http://localhost:3000/API/" + this.prefixRuta, {
+        fetch(process.env.VUE_APP_TITLE+"API/" + this.prefixRuta, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

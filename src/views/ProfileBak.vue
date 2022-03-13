@@ -255,7 +255,7 @@ export default {
   methods: {
     fetchActivos() {
       try {
-        fetch("http://localhost:3000/api/Activos", {
+        fetch(process.env.VUE_APP_TITLE+"API/Activos", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -297,7 +297,7 @@ export default {
     },
     submit() {
       if (this.isAddUser) {
-        fetch("http://localhost:3000/api/Activos", {
+        fetch(process.env.VUE_APP_TITLE+"API/Activos", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -326,7 +326,7 @@ export default {
           })
       } else if (this.isEditUser) {
         fetch(
-          "http://localhost:3000/api/Activos/" + this.idUserEdit.toString(),
+          process.env.VUE_APP_TITLE+"API/Activos/" + this.idUserEdit.toString(),
           {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -376,7 +376,7 @@ export default {
     },
     deleteUser(row) {
       const idUserDel = row.id
-      fetch("http://localhost:3000/api/Activos/" + idUserDel.toString(), {
+      fetch(process.env.VUE_APP_TITLE+"API/Activos/" + idUserDel.toString(), {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

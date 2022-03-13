@@ -31,8 +31,8 @@ return{
     data2:" datos2",
     data3:" datos3",
     data4:" datos4",
-    uriActivos:"http://localhost:3000/API/Activos",
-    uriAreas:"http://localhost:3000/API/Areas",
+    uriActivos:process.env.VUE_APP_TITLE+"API/Activos",
+    uriAreas:process.env.VUE_APP_TITLE+"API/Areas",
     columnsAreas:[
       {
         field: 'descripcion',

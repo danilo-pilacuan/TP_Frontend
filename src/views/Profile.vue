@@ -144,7 +144,7 @@ export default {
     },
     getUserData() {
       try {
-        fetch("http://localhost:3000/api/usuarios/authLogin", {
+        fetch(process.env.VUE_APP_TITLE+"API/usuarios/authLogin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -158,7 +158,7 @@ export default {
       }
     },
     submitCambio(){
-      fetch("http://localhost:3000/api/usuarios/cambiarContrasenia/"+ this.userData.id.toString(), {
+      fetch(process.env.VUE_APP_TITLE+"API/usuarios/cambiarContrasenia/"+ this.userData.id.toString(), {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

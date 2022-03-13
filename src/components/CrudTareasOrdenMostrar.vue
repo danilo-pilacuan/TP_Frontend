@@ -449,7 +449,7 @@ export default {
   methods: {
     fetchOrden() {
       try {
-        fetch("http://localhost:3000/API/ordentrabajo/"+this.$route.params.id, {
+        fetch(process.env.VUE_APP_TITLE+"API/ordentrabajo/"+this.$route.params.id, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -472,7 +472,7 @@ export default {
     },
     fetchDatos() {
       try {
-        fetch("http://localhost:3000/API/tareas/orden/"+this.ordenTrabajo.id, {
+        fetch(process.env.VUE_APP_TITLE+"API/tareas/orden/"+this.ordenTrabajo.id, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -498,7 +498,7 @@ export default {
 
     fetchTrabajadores() {
       try {
-        fetch("http://localhost:3000/API/trabajadores", {
+        fetch(process.env.VUE_APP_TITLE+"API/trabajadores", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -525,7 +525,7 @@ export default {
 
     fetchPeriodicidades() {
       try {
-        fetch("http://localhost:3000/API/Periodicidades", {
+        fetch(process.env.VUE_APP_TITLE+"API/Periodicidades", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -549,7 +549,7 @@ export default {
 
     fetchEstadosMantenimiento() {
       try {
-        fetch("http://localhost:3000/API/estadomantenimiento", {
+        fetch(process.env.VUE_APP_TITLE+"API/estadomantenimiento", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -573,7 +573,7 @@ export default {
 
     fetchActivos() {
       try {
-        fetch("http://localhost:3000/API/Activos", {
+        fetch(process.env.VUE_APP_TITLE+"API/Activos", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -600,7 +600,7 @@ export default {
 
     fetchTipoMantenimiento() {
       try {
-        fetch("http://localhost:3000/API/TipoMantenimiento", {
+        fetch(process.env.VUE_APP_TITLE+"API/TipoMantenimiento", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -628,7 +628,7 @@ export default {
     },
     submit() {
       if (this.isAdd) {
-        fetch("http://localhost:3000/API/"+this.prefixRuta, {
+        fetch(process.env.VUE_APP_TITLE+"API/"+this.prefixRuta, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -677,7 +677,7 @@ export default {
           });
       } else if (this.isEdit) {
         fetch(
-          "http://localhost:3000/API/"+this.prefixRuta+"/" + this.idSeleccionado.toString(),
+          process.env.VUE_APP_TITLE+"API/"+this.prefixRuta+"/" + this.idSeleccionado.toString(),
           {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -755,7 +755,7 @@ export default {
     },
     deleteFunction(row) {
       const idDel = row.id;
-      fetch("http://localhost:3000/API/"+this.prefixRuta+"/" + idDel.toString(), {
+      fetch(process.env.VUE_APP_TITLE+"API/"+this.prefixRuta+"/" + idDel.toString(), {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

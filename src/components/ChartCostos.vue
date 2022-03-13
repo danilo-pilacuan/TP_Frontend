@@ -49,7 +49,7 @@
       },
       getCostosData(){
         try {
-        fetch("http://localhost:3000/API/ordentrabajo", {
+        fetch(process.env.VUE_APP_TITLE+"API/ordentrabajo", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
