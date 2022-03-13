@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SecurityComponent/>
+    <SecurityComponent />
     <title-bar :title-stack="titleStack" />
     <section class="section is-main-section">
       <CrudActivos />

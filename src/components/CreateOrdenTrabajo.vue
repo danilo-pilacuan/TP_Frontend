@@ -13,7 +13,7 @@
               <b-field label="Número de Orden">
                 <b-input
                   v-model="inputNumero"
-                  :disabled="desactivarInputs"
+                  disabled
                 ></b-input>
               </b-field>
 
@@ -225,7 +225,7 @@ export default {
       desactivarInputs: false,
 
       inputFechaOrden: null,
-      inputNumero: null,
+      inputNumero: Date.now(),
       inputObservaciones: null,
 
       inputActivo: null,

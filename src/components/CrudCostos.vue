@@ -199,13 +199,14 @@ export default {
             if (data) {
               this.tablaDatos = data["resultado"];
               this.tablaDatos.forEach(element => {
+                
                   var auxCostoTareas=0;
                   var auxCostoMateriales=0;
                   element.Tareas.forEach(tarea => {
                       auxCostoTareas=auxCostoTareas+(tarea.numeroResponsables*tarea.horasHombre*parseFloat(tarea.costoHora))
                   });
                   element.Materials.forEach(material => {
-                      auxCostoMateriales=auxCostoMateriales+(parseFloat(material.cantidad)*parseFloat(material.precioUnitario))
+                      auxCostoMateriales=auxCostoMateriales+(parseFloat(material.Orden_Material.cantidad)*parseFloat(material.precioUnitario))
                   });
                   element.costoTareas=auxCostoTareas.toFixed(2);
                   element.costoMateriales=auxCostoMateriales.toFixed(2);

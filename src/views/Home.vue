@@ -6,11 +6,7 @@
       Inicio
     </hero-bar>
     <section class="section is-main-section">
-      <notification class="is-info">
-        Resumen Sistema de Mantenimiento
-
-        
-      </notification>
+      
 
       <tiles>
         <card-widget

@@ -3,9 +3,10 @@
     <hero-bar>
         <!-- @todo cambiar1 -->
       Tareas Orden
-      <b-button slot="right" type="is-primary" @click="createFunction">Crear</b-button>
+      <b-button slot="right" class="no-print" type="is-primary" @click="createFunction">Crear</b-button>
     </hero-bar>
     <card-component
+    class="no-print"
             title="Escoger Tarea"
             icon="account"
           >
@@ -20,6 +21,7 @@
                 field="descripcion"
                 @select="option => (inputTarea = option)"
                 :clearable="true"
+                class=""
             >
             </b-autocomplete>
             <b-field label="Fecha Inicio">
@@ -78,8 +80,7 @@
           :focusable="true"
           :mobile-cards="false"
           :searchable="true"
-          :paginated="true"
-          :per-page="20"
+          :paginated="false"
         >
           <template v-for="column in columns">
             <b-table-column :key="column.id" v-bind="column">
@@ -92,6 +93,7 @@
                   placeholder="Buscar..."
                   icon="magnify"
                   size="is-small"
+                  class="no-print"
                 />
               </template>
               <template v-slot="props">
@@ -319,7 +321,7 @@ export default {
                     return option.descripcion
                         .toString()
                         .toLowerCase()
-                        .indexOf(this.inputBuscarPeriodicidad.toLowerCase()) >= 0
+                        .indexOf(this.inputBuscarTarea.toLowerCase()) >= 0
                 })
             }
             else

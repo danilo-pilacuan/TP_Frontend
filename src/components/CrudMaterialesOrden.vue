@@ -8,6 +8,7 @@
     <card-component
             title="Escoger Tarea"
             icon="account"
+            class="no-print"
           >
             <div class="columns">
               <div class="column is-10">

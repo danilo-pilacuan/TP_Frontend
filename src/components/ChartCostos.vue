@@ -1,7 +1,6 @@
 <template>
-  <div class="small">
-    <button @click="fillData()">Randomize</button>
-    <line-chart :chart-data="dataCostos"></line-chart>
+  <div>
+    <line-chart v-if="dataCostos" :chart-data="dataCostos"></line-chart>
     
   </div>
 </template>
@@ -21,7 +20,8 @@
           primary: '#00D1B2',
           info: '#209CEE',
           danger: '#FF3860'
-        }
+        },
+        tablaDatos:null,
       }
     },
     mounted () {
@@ -49,7 +49,7 @@
       },
       getCostosData(){
         try {
-        fetch("http://localhost:3000/API/ordentrabajo/ByDate", {
+        fetch("http://localhost:3000/API/ordentrabajo", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -59,8 +59,10 @@
             var resp = data;
 
             if (data) {
-              this.tablaDatos = data["resultado"];
-              console.log(this.tablaDatos)
+
+
+              this.tablaDatos = data["resultado"];       
+              
               this.tablaDatos.forEach(element => {
                   var auxCostoTareas=0;
                   var auxCostoMateriales=0;
@@ -68,27 +70,68 @@
                       auxCostoTareas=auxCostoTareas+(tarea.numeroResponsables*tarea.horasHombre*parseFloat(tarea.costoHora))
                   });
                   element.Materials.forEach(material => {
-                      auxCostoMateriales=auxCostoMateriales+(parseFloat(material.cantidad)*parseFloat(material.precioUnitario))
+                      auxCostoMateriales=auxCostoMateriales+(parseFloat(material.Orden_Material.cantidad)*parseFloat(material.precioUnitario))
                   });
                   element.costoTareas=auxCostoTareas.toFixed(2);
                   element.costoMateriales=auxCostoMateriales.toFixed(2);
-
-                  
-
               });
 
-              var labelsCostos=[];
-                  var costosData=[]
-                  this.tablaDatos.forEach(element => {
-                      labelsCostos.push((new Date(Date.parse(element["createdAt"]))).toLocaleDateString())
-                      costosData.push(parseFloat(element.costoTareas)+parseFloat(element.costoMateriales))
+
+              var auxTablaDatos = this.tablaDatos.map(e=> { 
+                    e.fechaOrden=new Date(Date.parse(e.fechaOrden)).toLocaleDateString()
+                    console.log(e.fechaSolicitud)
+                    return e;
                   });
+             
+
+
+              var groupBy = function(xs, key) {
+                return xs.reduce(function(rv, x) {
+                  (rv[x[key]] = rv[x[key]] || []).push(x);
+                  return rv;
+                }, {});
+              };
+
+              this.tablaDatos=groupBy(this.tablaDatos, 'fechaOrden')
+
+              
+              let arraySumaTotal=[]
+              let arraySumaTareas=[]
+              let arraySumaMateriales=[]
+              
+              Object.keys(this.tablaDatos).forEach(element => {
+                var sumTotal=0;
+                var sumMateriales=0;
+                var sumTareas=0;
+
+                this.tablaDatos[element].forEach(element2=>{
+                  sumTotal=sumTotal+parseFloat(element2.costoTareas)+parseFloat(element2.costoMateriales);
+                  sumMateriales=sumMateriales+parseFloat(element2.costoMateriales);
+                  sumTareas=sumTareas+parseFloat(element2.costoTareas);
+                });
+                arraySumaTotal.push({"label":element,"valor":sumTotal})
+                arraySumaTareas.push({"label":element,"valor":sumTareas})
+                arraySumaMateriales.push({"label":element,"valor":sumMateriales})
+              });
+              arraySumaTotal.sort((a, b) => (Date.parse(a.label) > Date.parse(b.label)) ? 1 : -1)
+              arraySumaTareas.sort((a, b) => (Date.parse(a.label) > Date.parse(b.label)) ? 1 : -1)
+              arraySumaMateriales.sort((a, b) => (Date.parse(a.label) > Date.parse(b.label)) ? 1 : -1)
+
+
+              var dataLabels1=arraySumaTotal.map(a=>a.label)
+              var dataValues1=arraySumaTotal.map(a=>a.valor)
+              var dataValues2=arraySumaTareas.map(a=>a.valor)
+              var dataValues3=arraySumaMateriales.map(a=>a.valor)
+
+              
+
+            
                   this.dataCostos = {
-                    labels: labelsCostos,
+                    labels: dataLabels1,
                     datasets: [
                       {
-                        label: 'Costos',
-                        data: costosData,
+                        label: 'Costos Totales',
+                        data: dataValues1,
                         fill: false,
                         borderColor: this.defaultColor['primary'],
                         borderWidth: 2,
@@ -105,9 +148,106 @@
                         cubicInterpolationMode: 'default'
 
                       }, 
+                      {
+                        label: 'Costos Tareas',
+                        data: dataValues2,
+                        fill: false,
+                        borderColor: this.defaultColor['info'],
+                        borderWidth: 2,
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        pointBackgroundColor: this.defaultColor['info'],
+                        pointBorderColor: 'rgba(255,255,255,0)',
+                        pointHoverBackgroundColor: this.defaultColor['info'],
+                        pointBorderWidth: 20,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 15,
+                        pointRadius: 4,
+                        tension: 0.5,
+                        cubicInterpolationMode: 'default'
+
+                      }, 
+                      {
+                        label: 'Costos Materiales',
+                        data: dataValues3,
+                        fill: false,
+                        borderColor: this.defaultColor['danger'],
+                        borderWidth: 2,
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        pointBackgroundColor: this.defaultColor['danger'],
+                        pointBorderColor: 'rgba(255,255,255,0)',
+                        pointHoverBackgroundColor: this.defaultColor['danger'],
+                        pointBorderWidth: 20,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 15,
+                        pointRadius: 4,
+                        tension: 0.5,
+                        cubicInterpolationMode: 'default'
+
+                      }, 
+
                     ]
                     
                   }
+
+
+              // this.tablaDatos = data["resultado"];
+
+
+
+
+
+
+
+              // console.log(this.tablaDatos)
+              // this.tablaDatos.forEach(element => {
+              //     var auxCostoTareas=0;
+              //     var auxCostoMateriales=0;
+              //     element.Tareas.forEach(tarea => {
+              //         auxCostoTareas=auxCostoTareas+(tarea.numeroResponsables*tarea.horasHombre*parseFloat(tarea.costoHora))
+              //     });
+              //     element.Materials.forEach(material => {
+              //         auxCostoMateriales=auxCostoMateriales+(parseFloat(material.cantidad)*parseFloat(material.precioUnitario))
+              //     });
+              //     element.costoTareas=auxCostoTareas.toFixed(2);
+              //     element.costoMateriales=auxCostoMateriales.toFixed(2);
+
+                  
+
+              // });
+
+              // var labelsCostos=[];
+              //     var costosData=[]
+              //     this.tablaDatos.forEach(element => {
+              //         labelsCostos.push((new Date(Date.parse(element["createdAt"]))).toLocaleDateString())
+              //         costosData.push(parseFloat(element.costoTareas)+parseFloat(element.costoMateriales))
+              //     });
+              //     this.dataCostos = {
+              //       labels: labelsCostos,
+              //       datasets: [
+              //         {
+              //           label: 'Costos',
+              //           data: costosData,
+              //           fill: false,
+              //           borderColor: this.defaultColor['primary'],
+              //           borderWidth: 2,
+              //           borderDash: [],
+              //           borderDashOffset: 0.0,
+              //           pointBackgroundColor: this.defaultColor['primary'],
+              //           pointBorderColor: 'rgba(255,255,255,0)',
+              //           pointHoverBackgroundColor: this.defaultColor['primary'],
+              //           pointBorderWidth: 20,
+              //           pointHoverRadius: 4,
+              //           pointHoverBorderWidth: 15,
+              //           pointRadius: 4,
+              //           tension: 0.5,
+              //           cubicInterpolationMode: 'default'
+
+              //         }, 
+              //       ]
+                    
+              //     }
               
               //console.log(this.tablaDatos)
             } else {
