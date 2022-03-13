@@ -13,21 +13,21 @@
           class="tile is-child"
           type="is-primary"
           icon="account-multiple"
-          :number="3"
+          :number="numUsuarios"
           label="Trabajadores"
         />
         <card-widget
           class="tile is-child"
           type="is-info"
           icon="hammer-wrench"
-          :number="31"
+          :number="numActivos"
           label="Activos"
         />
         <card-widget
           class="tile is-child"
           type="is-success"
           icon="chart-timeline-variant"
-          :number="12"
+          :number="numOrdenes"
           label="Tareas Mantenimiento"
         />
       </tiles>
@@ -36,10 +36,8 @@
         title="Rendimiento General"
         icon="finance"
         header-icon="reload"
-        @header-icon-click="fillChartData"
       >
         <div
-          v-if="chartData"
           class="chart-area"
         >
           <ChartCostos
@@ -79,32 +77,98 @@ export default {
     Notification,
     SecurityComponent
   },
-  setup (props, { root: { $buefy } }) {
-    const titleStack = ['Admin', 'Inicio']
-
-    const chartOptions = chartConfig.chartOptionsMain
-
-    const chartData = ref(null)
-
-    const fillChartData = () => {
-      chartData.value = chartConfig.sampleChartData()
-    }
-
-    onMounted(() => {
-      fillChartData()
-
-      // $buefy.snackbar.open({
-      //   message: 'Bienvenido de vuelta',
-      //   queue: false
-      // })
-    })
-
+  data() {
     return {
-      titleStack,
-      chartOptions,
-      chartData,
-      fillChartData
-    }
-  }
+      tablaUsuarios:null,
+      tablaActivos:null,
+      tablaOrdenes:null,
+
+
+      numUsuarios:0,
+      numActivos:0,
+      numOrdenes:0,
+
+
+      titleStack:['Admin', 'Inicio'],
+
+    };
+  },
+methods: {
+    fetchUsuarios() {
+      try {
+        fetch(process.env.VUE_APP_TITLE+"Api/usuarios", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+
+            if (data) {
+              this.tablaUsuarios=data["resultado"]
+              this.numUsuarios=this.tablaUsuarios.length
+            } else {
+              this.tablaUsuarios = [];
+            }
+          });
+      } catch (e) {
+        
+      }
+    },
+    fetchActivos() {
+      try {
+        fetch(process.env.VUE_APP_TITLE+"Api/Activos", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+
+            if (data) {
+              this.tablaActivos=data["resultado"]
+              this.numActivos=this.tablaActivos.length
+            } else {
+              this.tablaActivos = [];
+            }
+          });
+      } catch (e) {
+        
+      }
+    },
+    fetchOrdenes() {
+      try {
+        fetch(process.env.VUE_APP_TITLE+"Api/ordentrabajo", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+
+            if (data) {
+              this.tablaOrdenes=data["resultado"]
+              this.numOrdenes=this.tablaOrdenes.length
+            } else {
+              this.tablaOrdenes = [];
+            }
+          });
+      } catch (e) {
+        
+      }
+    },
+    
+},
+mounted() {
+    //llamados fetch @todo cambiar9
+    this.fetchUsuarios()
+    this.fetchActivos()
+    this.fetchOrdenes()
+
+  },
+  
 }
 </script>

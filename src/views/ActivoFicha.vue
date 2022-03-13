@@ -102,7 +102,7 @@
           </div>
         </card-component>
       </tiles>
-      <card-component title="Historial de Mantenimiento" icon="book">
+      <!-- <card-component title="Historial de Mantenimiento" icon="book">
         <b-button
           type="is-success"
           size="is-big"
@@ -147,27 +147,9 @@
               </template>
             </b-table-column>
           </template>
-          <!-- <b-table-column field="actions" label="Acciones" v-slot="props">
-            <div class="buttons">
-              <slot name="addButtons"></slot>
-              <b-button
-                rounded
-                type="is-warning"
-                icon-left="pencil"
-                @click="editFunction(props.row)"
-              >
-              </b-button>
-              <b-button
-                rounded
-                type="is-danger"
-                icon-left="delete"
-                @click="deleteFunction(props.row)"
-              >
-              </b-button>
-            </div>
-          </b-table-column> -->
+          
         </b-table>
-      </card-component>
+      </card-component> -->
     </section>
   </div>
 </template>
