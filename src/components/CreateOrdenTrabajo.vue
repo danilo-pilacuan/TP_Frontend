@@ -226,7 +226,7 @@ export default {
 
       inputFechaOrden: null,
       inputNumero: Date.now(),
-      inputObservaciones: null,
+      inputObservaciones: "",
 
       inputActivo: null,
       inputTrabajador: null,
