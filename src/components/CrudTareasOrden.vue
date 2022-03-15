@@ -168,7 +168,7 @@
             <div class="columns">
               <div class="column">
                 <b-field label="Horas Hombre">
-                    <b-numberinput v-model="inputHorasHombre" placeholder="0"></b-numberinput>
+                    <b-numberinput v-model="inputHorasHombre" step="0.01" placeholder="0"></b-numberinput>
                 </b-field>
               </div>
             </div>

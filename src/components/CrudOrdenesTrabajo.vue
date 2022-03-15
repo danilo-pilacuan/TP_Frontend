@@ -58,13 +58,13 @@
                 @click="verOrden(props.row)"
               >
               </b-button>
-              <b-button
+              <!-- <b-button
                 rounded
                 type="is-warning"
                 icon-left="pencil"
                 @click="editFunction(props.row)"
               >
-              </b-button>
+              </b-button> -->
               <b-button
                 rounded
                 type="is-danger"
@@ -232,7 +232,7 @@ export default {
             this.isEdit = false;
 
             this.showModalCreateEdit = false;
-            this.$buefy.dialog.alert("Tipo Mantenimiento agregado correctamente"); //@todo cambiar13
+            this.$buefy.dialog.alert("Orden de trabajo agregada correctamente"); //@todo cambiar13
 
             this.fetchDatos();
           });
@@ -256,7 +256,7 @@ export default {
             this.inputDescripcion=null,
             
             this.showModalCreateEdit = false;
-            this.$buefy.dialog.alert("Tipo Mantenimiento editado correctamente");
+            this.$buefy.dialog.alert("TOrden de trabajo editada correctamente");
             //llamar fetch
             this.fetchDatos();
           });
@@ -293,7 +293,7 @@ export default {
           this.isEdit = false;
 
           this.showModalCreateEdit = false;
-          this.$buefy.dialog.alert("Tipo Mantenimiento eliminado correctamente"); //@todo cambiar19
+          this.$buefy.dialog.alert("Orden de trabajo eliminada correctamente"); //@todo cambiar19
           //llamar fetch
           this.fetchDatos();
         });

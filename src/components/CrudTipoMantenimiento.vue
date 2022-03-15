@@ -140,7 +140,7 @@ export default {
   data() {
     return {
         //prefijo ruta @todo cambiar3
-      prefixRuta: "estadomantenimiento",
+      prefixRuta: "tipomantenimiento",
       //nombres campos @todo cambiar4
        
         inputDescripcion: null,

@@ -57,13 +57,13 @@
                 @click="verOrden(props.row)"
               >
               </b-button>
-              <b-button
+              <!-- <b-button
                 rounded
                 type="is-warning"
                 icon-left="pencil"
                 @click="editFunction(props.row)"
               >
-              </b-button>
+              </b-button> -->
               <b-button
                 rounded
                 type="is-danger"
