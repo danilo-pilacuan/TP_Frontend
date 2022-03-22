@@ -101,7 +101,7 @@
               </div>
             </div>
 
-            <div class="columns">
+            <!-- <div class="columns">
               <div class="column">
                 <b-field label="Número de Responsables">
                     <b-numberinput v-model="inputNumeroResponsables" placeholder="0"></b-numberinput>
@@ -121,7 +121,7 @@
                     <b-numberinput v-model="inputCostoHora" step="0.01" placeholder="0"></b-numberinput>
                 </b-field>
               </div>
-            </div>
+            </div> -->
 
             <!-- <div class="columns">
               <div class="column">
@@ -185,7 +185,7 @@
               </div>
             </div> -->
 
-            <div class="columns">
+            <!-- <div class="columns">
               <div class="column">
                 <b-field label="Periodicidad">
                     <b-autocomplete
@@ -238,7 +238,7 @@
                 </b-field>
                 <br><br><br><br><br><br>
               </div>
-            </div>
+            </div> -->
 
 
 
@@ -400,39 +400,39 @@ export default {
         //   label: "Apellidos Responsable",
         //   searchable: true
         // },
-        {
-          field: "numeroResponsables",
-          label: "Número Responsables",
-          searchable: true,
-        },
-        {
-          field: "horasHombre",
-          label: "Horas Hombre",
-          searchable: true,
-        },
-        {
-          field: "costoHora",
-          label: "Costo Hora",
-          searchable: true,
-        },
-        {
-          field: "Periodicidad",
-          subField: "descripcion",
-          label: "Periodicidad",
-          searchable: true
-        },
-        {
-          field: "EstadoMantenimiento",
-          subField: "descripcion",
-          label: "Estado Mantenimiento",
-          searchable: true
-        },
-        {
-          field: "TipoMantenimiento",
-          subField: "descripcion",
-          label: "Tipo Mantenimiento",
-          searchable: true
-        }
+        // {
+        //   field: "numeroResponsables",
+        //   label: "Número Responsables",
+        //   searchable: true,
+        // },
+        // {
+        //   field: "horasHombre",
+        //   label: "Horas Hombre",
+        //   searchable: true,
+        // },
+        // {
+        //   field: "costoHora",
+        //   label: "Costo Hora",
+        //   searchable: true,
+        // },
+        // {
+        //   field: "Periodicidad",
+        //   subField: "descripcion",
+        //   label: "Periodicidad",
+        //   searchable: true
+        // },
+        // {
+        //   field: "EstadoMantenimiento",
+        //   subField: "descripcion",
+        //   label: "Estado Mantenimiento",
+        //   searchable: true
+        // },
+        // {
+        //   field: "TipoMantenimiento",
+        //   subField: "descripcion",
+        //   label: "Tipo Mantenimiento",
+        //   searchable: true
+        // }
       ],
       //tablas auxiliares @todo cambiar8
       tablaTrabajadores: [],
@@ -618,6 +618,7 @@ export default {
     },
 
     createFunction() {
+      this.inputDescripcion=""
       this.showModalCreateEdit = true;
       this.isAdd = true;
     },
@@ -635,12 +636,6 @@ export default {
             //semanaInicial: this.inputSemanaInicial,
             //idActivo: this.inputActivo.id,
             //idTrabajadorResponsable: this.inputTrabajador.id,
-            idPeriodicidad: this.inputPeriodicidad.id,
-            idEstadoMantenimiento: this.inputEstadoMantenimiento.id,
-            idTipoMantenimiento: this.inputTipoMantenimiento.id,
-            costoHora: this.inputCostoHora,
-            numeroResponsables: this.inputNumeroResponsables,
-            horasHombre: this.inputHorasHombre,
 
           }),
         })
@@ -686,12 +681,12 @@ export default {
             //semanaInicial: this.inputSemanaInicial,
             //idActivo: this.inputActivo.id,
             //idTrabajadorResponsable: this.inputTrabajador.id,
-            idPeriodicidad: this.inputPeriodicidad.id,
-            idEstadoMantenimiento: this.inputEstadoMantenimiento.id,
-            idTipoMantenimiento: this.inputTipoMantenimiento.id,
-            costoHora: this.inputCostoHora,
-            numeroResponsables: this.inputNumeroResponsables,
-            horasHombre: this.inputHorasHombre,
+            // idPeriodicidad: this.inputPeriodicidad.id,
+            // idEstadoMantenimiento: this.inputEstadoMantenimiento.id,
+            // idTipoMantenimiento: this.inputTipoMantenimiento.id,
+            // costoHora: this.inputCostoHora,
+            // numeroResponsables: this.inputNumeroResponsables,
+            // horasHombre: this.inputHorasHombre,
             }),
           }
         )
@@ -727,24 +722,24 @@ export default {
     editFunction(row) {
       //obtener valores para editar en form @todo cambiar16
         this.inputDescripcion=row.descripcion
-        this.inputFechaInicio=new Date(row.fechaInicio)
-        this.inputSemanaInicial=row.semanaInicial
+        // this.inputFechaInicio=new Date(row.fechaInicio)
+        // this.inputSemanaInicial=row.semanaInicial
         // this.inputActivo=,
         // this.inputTrabajador=null,
         // this.inputPeriodicidad=null,
         // this.inputEstadoMantenimiento=null,
         // this.inputTipoMantenimiento=null,
-        console.log(row)
-        //this.inputActivo=row.idActivo
-        //this.inputBuscarActivo="Nombre: " +row.Activo.nombre +" - Código "+row.Activo.codigo
-        //this.inputTrabajador=row.Trabajador
-        //this.inputBuscarTrabajador=row.Trabajador.nombres +" "+row.Trabajador.apellidos
-        this.inputPeriodicidad=row.Periodicidad
-        this.inputBuscarPeriodicidad=row.Periodicidad.descripcion
-        this.inputEstadoMantenimiento=row.EstadoMantenimiento
-        this.inputBuscarEstadoMantenimiento=row.EstadoMantenimiento.descripcion
-        this.inputTipoMantenimiento=row.TipoMantenimiento
-        this.inputBuscarTipoMantenimiento=row.TipoMantenimiento.descripcion
+        // console.log(row)
+        // this.inputActivo=row.idActivo
+        // this.inputBuscarActivo="Nombre: " +row.Activo.nombre +" - Código "+row.Activo.codigo
+        // this.inputTrabajador=row.Trabajador
+        // this.inputBuscarTrabajador=row.Trabajador.nombres +" "+row.Trabajador.apellidos
+        // this.inputPeriodicidad=row.Periodicidad
+        // this.inputBuscarPeriodicidad=row.Periodicidad.descripcion
+        // this.inputEstadoMantenimiento=row.EstadoMantenimiento
+        // this.inputBuscarEstadoMantenimiento=row.EstadoMantenimiento.descripcion
+        // this.inputTipoMantenimiento=row.TipoMantenimiento
+        // this.inputBuscarTipoMantenimiento=row.TipoMantenimiento.descripcion
         
       //id Editar @todo cambiar17
       this.idSeleccionado = row.id;

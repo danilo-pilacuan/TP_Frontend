@@ -6,9 +6,10 @@
       <!-- <b-button slot="right" type="is-primary" @click="createFunction">Crear</b-button> -->
     </hero-bar>
     <card-component
-            title="Escoger Tarea"
+            title="Escoger Materiales"
             icon="account"
             class="no-print"
+            v-if="tipoUsuario==1"
           >
             <div class="columns">
               <div class="column is-10">
@@ -43,6 +44,7 @@
               icon-left="plus"
               @click="createFunction"
               class="mt-2"
+
             >Crear Material
             </b-button>
 
@@ -108,10 +110,27 @@
                 type="is-danger"
                 icon-left="delete"
                 @click="deleteFunction(props.row)"
+                :disabled="tipoUsuario==2"
               >
               </b-button>
             </div>
           </b-table-column>
+          <template #footer>
+            <div class="columns">
+              <div class="column is-8">
+
+              </div>
+              <div class="column is-3">
+                <div class="has-text-right">
+                    <strong>Total Materiales: </strong>
+                    {{costoGeneralMateriales.toFixed(2)}}
+            </div>
+              </div>
+              <div class="column is-1">
+
+              </div>
+            </div>
+            </template>
         </b-table>
       </div>
     </div>
@@ -233,6 +252,8 @@ export default {
   data() {
     return {
         //prefijo ruta @todo cambiar3
+        tipoUsuario:1,
+        costoGeneralMateriales:0,
       prefixRuta: "Materiales",
       //nombres campos @todo cambiar4
        
@@ -275,6 +296,11 @@ export default {
           label: "Cantidad",
           searchable: true
         },
+        {
+          field: "costoMaterial",
+          label: "Costo Total Material",
+          searchable: true
+        },
       ],
       //tablas auxiliares @todo cambiar8
 
@@ -298,12 +324,33 @@ export default {
   },
   mounted() {
     //llamados fetch @todo cambiar9
+    this.authLogin();
     this.fetchMaterialesGeneral()
     this.fetchDatos()
     
     
   },
   methods: {
+    authLogin() {
+      try {
+
+        fetch(process.env.VUE_APP_TITLE+"API/usuarios/authLogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+            console.log("Authlogin ")
+            console.log(resp);
+            this.tipoUsuario=resp.resultado.tipoUsuario
+            
+          });
+      } catch (e) {
+        this.$store.dispatch("setAuth", false);
+      }
+    },
     addMaterialToOrden(){
       if(this.inputMaterial && this.ordenTrabajoCreada)
         {
@@ -368,6 +415,17 @@ export default {
               this.tablaDatos = data["resultado"].Materials;
               console.log("Ordenes Tarea")
               console.log(this.tablaDatos)
+              this.tablaDatos.forEach(element => {                  
+                  var costoMaterial=0;
+                  costoMaterial=element.precioUnitario*parseFloat(element.Orden_Material.cantidad)
+                  
+                  element.costoMaterial=costoMaterial;
+                  element.costoMaterial=Math.round(element.costoMaterial*100)/100
+                  this.costoGeneralMateriales=this.costoGeneralMateriales+element.costoMaterial;
+                  console.log("TTT")
+                  console.log(element)
+              });
+
             } else {
               //this.$router.push("/login")
               this.tablaDatos = [];

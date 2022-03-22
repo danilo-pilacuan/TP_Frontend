@@ -203,7 +203,7 @@ export default {
                   var auxCostoTareas=0;
                   var auxCostoMateriales=0;
                   element.Tareas.forEach(tarea => {
-                      auxCostoTareas=auxCostoTareas+(tarea.numeroResponsables*tarea.horasHombre*parseFloat(tarea.costoHora))
+                      auxCostoTareas=auxCostoTareas+(tarea.Orden_Tarea.numeroResponsables*tarea.Orden_Tarea.horasHombre*parseFloat(tarea.Orden_Tarea.costoHora))
                   });
                   element.Materials.forEach(material => {
                       auxCostoMateriales=auxCostoMateriales+(parseFloat(material.Orden_Material.cantidad)*parseFloat(material.precioUnitario))

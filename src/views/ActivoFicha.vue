@@ -68,7 +68,7 @@
         <card-component title="Imagenes" icon="image" class="tile is-child no-print">
           <div class="card" >
             <header class="card-header">
-              <file-picker type="is-info" class="mt-1 mx-1 mb-1" :idActivo="datosActivo.id" @upload="imgSubida"/>
+              <file-picker type="is-info" class="mt-1 mx-1 mb-1" :idActivo="datosActivo.id" @upload="imgSubida" v-if="tipoUsuario==1"/>
 
               
             </header>
@@ -89,6 +89,7 @@
                         type="is-danger"
                         size="is-big"
                         @click="eliminarImagen(imagen.id)"
+                        v-if="tipoUsuario==1"
                       >
                         Eliminar Imagen
                       </b-button>
@@ -186,6 +187,7 @@ export default {
     return {
       titleStack: ["Administración", "Activo"],
       idActivo: 1,
+      tipoUsuario: 1,
       userName: "sda",
       tablaTareas: [],
       tablaImagenes: [],
@@ -246,6 +248,26 @@ export default {
     };
   },
   methods: {
+    authLogin() {
+      try {
+
+        fetch(process.env.VUE_APP_TITLE+"API/usuarios/authLogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+            console.log("Authlogin ")
+            console.log(resp);
+            this.tipoUsuario=resp.resultado.tipoUsuario
+            
+          });
+      } catch (e) {
+        this.$store.dispatch("setAuth", false);
+      }
+    },
     imprimirInforme()
     {
       window.print();
@@ -329,7 +351,7 @@ export default {
     this.idActivo = this.$route.params.id;
   },
   mounted() {
-    
+    this.authLogin()
     console.log("The id is: " + this.idActivo);
     this.fetchActivo();
     this.fetchImagenes();

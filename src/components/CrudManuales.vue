@@ -4,7 +4,7 @@
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">Manuales</p>
-          <b-button slot="right" class="mt-1 mb-1 mx-1" type="is-primary" @click="createFunction">Cargar</b-button>
+          <b-button slot="right" class="mt-1 mb-1 mx-1" type="is-primary" @click="createFunction" v-if="tipoUsuario==1">Cargar</b-button>
         </header>
         <div class="card-content">
           <b-table
@@ -59,6 +59,7 @@
                   type="is-danger"
                   icon-left="delete"
                   @click="deleteFunction(props.row)"
+                  v-if="tipoUsuario==1"
                 >
                 </b-button>
               </div>
@@ -159,7 +160,7 @@ export default {
       prefixRuta: "manuales",
       //nombres campos @todo cambiar4
       inputNombre: null,
-
+      tipoUsuario:1,
       //info entidad @todo cambiar5
 
       //tablas Datos @todo cambiar6
@@ -188,7 +189,7 @@ export default {
   },
   mounted() {
     //llamados fetch @todo cambiar9
-
+    this.authLogin();
     this.fetchDatos();
   },
   methods: {
@@ -197,6 +198,26 @@ export default {
     },
     cargarManual(e){
         this.file.value = e
+    },
+    authLogin() {
+      try {
+
+        fetch(process.env.VUE_APP_TITLE+"API/usuarios/authLogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+            console.log("Authlogin ")
+            console.log(resp);
+            this.tipoUsuario=resp.resultado.tipoUsuario
+            
+          });
+      } catch (e) {
+        this.$store.dispatch("setAuth", false);
+      }
     },
     fetchDatos() {
         //

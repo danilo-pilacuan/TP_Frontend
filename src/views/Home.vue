@@ -34,8 +34,7 @@
 
       <card-component
         title="Rendimiento General"
-        icon="finance"
-        header-icon="reload"
+        icon="finance" 
       >
         <div
           class="chart-area"

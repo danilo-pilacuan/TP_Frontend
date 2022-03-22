@@ -3,12 +3,13 @@
     <hero-bar>
         <!-- @todo cambiar1 -->
       Tareas Orden
-      <b-button slot="right" class="no-print" type="is-primary" @click="createFunction">Crear</b-button>
+      <!-- <b-button slot="right" class="no-print" type="is-primary" @click="createFunction" v-if="tipoUsuario==1">Crear</b-button> -->
     </hero-bar>
     <card-component
     class="no-print"
             title="Escoger Tarea"
             icon="account"
+            v-if="tipoUsuario==1"
           >
             <div class="columns">
               <div class="column is-10">
@@ -21,7 +22,7 @@
                 field="descripcion"
                 @select="option => (inputTarea = option)"
                 :clearable="true"
-                class=""
+                
             >
             </b-autocomplete>
             <b-field label="Fecha Inicio">
@@ -40,6 +41,83 @@
             <b-field label="Semana Inicial">
               <b-numberinput v-model="inputSemanaInicial" placeholder="0"></b-numberinput>
             </b-field>    
+            <div class="columns">
+              <div class="column">
+                <b-field label="Número de Responsables">
+                    <b-numberinput v-model="inputNumeroResponsables" placeholder="0"></b-numberinput>
+                </b-field>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column">
+                <b-field label="Horas Hombre">
+                    <b-numberinput v-model="inputHorasHombre" step="0.01" placeholder="0"></b-numberinput>
+                </b-field>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column">
+                <b-field label="Costo por Hora">
+                    <b-numberinput v-model="inputCostoHora" step="0.01" placeholder="0"></b-numberinput>
+                </b-field>
+              </div>
+            </div>
+
+                        
+
+            <div class="columns">
+              <div class="column">
+                <b-field label="Periodicidad">
+                    <b-autocomplete
+                        v-model="inputBuscarPeriodicidad"
+                        placeholder="Seleccionar Periodicidad"
+                        :keep-first="false"
+                        :open-on-focus="true"
+                        :data="filterPeriodicidad"
+                        field="descripcion"
+                        @select="option => (inputPeriodicidad = option)"
+                        :clearable="true"
+                    >
+                    </b-autocomplete>                    
+                </b-field>
+              </div>
+            </div>
+
+            <div class="columns">
+              <div class="column">
+                <b-field label="Estado Mantenimiento">
+                    <b-autocomplete
+                        v-model="inputBuscarEstadoMantenimiento"
+                        placeholder="Seleccionar Estado Mantenimiento"
+                        :keep-first="false"
+                        :open-on-focus="true"
+                        :data="filterEstadoMantenimiento"
+                        field="descripcion"
+                        @select="option => (inputEstadoMantenimiento = option)"
+                        :clearable="true"
+                    >
+                    </b-autocomplete>                    
+                </b-field>
+              </div>
+            </div>
+
+            <div class="columns">
+              <div class="column">
+                <b-field label="Tipo Mantenimiento">
+                    <b-autocomplete
+                        v-model="inputBuscarTipoMantenimiento"
+                        placeholder="Seleccionar Tipo Mantenimiento"
+                        :keep-first="false"
+                        :open-on-focus="true"
+                        :data="filterTipoMantenimiento"
+                        field="descripcion"
+                        @select="option => (inputTipoMantenimiento = option)"
+                        :clearable="true"
+                    >
+                    </b-autocomplete>                    
+                </b-field>
+              </div>
+            </div>
             <b-button
               rounded
               type="is-link"
@@ -56,6 +134,7 @@
               icon-left="plus"
               @click="createFunction"
               class="mt-2"
+              v-if="tipoUsuario==1"
             >Crear Tarea
             </b-button>
 
@@ -98,7 +177,12 @@
               </template>
               <template v-slot="props">
                 <div v-if="typeof props.row[column.field] === 'object'">
-                  {{ props.row[column.field][column.subField] }}
+                  <div v-if="typeof props.row[column.field][column.subField] === 'object'">
+                    {{ props.row[column.field][column.subField][column.subSubField] }}
+                  </div>  
+                  <div v-else>
+                    {{ props.row[column.field][column.subField] }}
+                  </div>
                 </div>
                 <div v-else>
                   {{ props.row[column.field] }}
@@ -108,22 +192,39 @@
           </template>
           <b-table-column field="actions" label="Acciones" v-slot="props">
             <div class="buttons">
-              <!-- <b-button
+              <b-button
                 rounded
                 type="is-warning"
                 icon-left="pencil"
                 @click="editFunction(props.row)"
               >
-              </b-button> -->
+              </b-button>
               <b-button
                 rounded
                 type="is-danger"
                 icon-left="delete"
                 @click="deleteFunction(props.row)"
+                :disabled="tipoUsuario==2"
               >
               </b-button>
             </div>
           </b-table-column>
+          <template #footer>
+            <div class="columns">
+              <div class="column is-8">
+
+              </div>
+              <div class="column is-3">
+                <div class="has-text-right">
+                    <strong>Total Tareas: </strong>
+                    {{costoGeneralTareas.toFixed(2)}}
+            </div>
+              </div>
+              <div class="column is-1">
+
+              </div>
+            </div>
+            </template>
         </b-table>
       </div>
     </div>
@@ -152,7 +253,7 @@
                     { 'Username is too short': nombreTooShort },
                   ]"
                 >
-                  <b-input v-model="inputDescripcion"></b-input>
+                  <b-input v-model="inputDescripcion" :disabled="this.isEdit"></b-input>
                 </b-field>
                 
               </div>
@@ -378,7 +479,9 @@ export default {
     },
   data() {
     return {
-        //prefijo ruta @todo cambiar3
+        //prefijo ruta @todo cambiar3ç
+        tipoUsuario:1,
+        costoGeneralTareas:0,
       prefixRuta: "Tareas",
       //nombres campos @todo cambiar4
       tareaCreada:null,
@@ -429,38 +532,11 @@ export default {
       //columnas tabla Datos @todo cambiar7
       columns: [
         {
-          field: "descripcion",
-          label: "Descripción",
-          searchable: true,
+          field: "Tarea",
+          subField: "descripcion",
+          label: "Descripcion",
+          searchable: true
         },
-        // {
-        //   field: "fechaInicio",
-        //   label: "Fecha Inicio",
-        //   searchable: true,
-        // },
-        // {
-        //   field: "semanaInicial",
-        //   label: "Semana Inicial",
-        //   searchable: true
-        // },
-        // {
-        //   field: "Activo",
-        //   subField: "nombre",
-        //   label: "Activo",
-        //   searchable: true
-        // },
-        // {
-        //   field: "Trabajador",
-        //   subField:"nombres",
-        //   label: "Nombres Responsable",
-        //   searchable: true
-        // },
-        // {
-        //   field: "Trabajador",
-        //   subField:"apellidos",
-        //   label: "Apellidos Responsable",
-        //   searchable: true
-        // },
         {
           field: "numeroResponsables",
           label: "Número Responsables",
@@ -493,7 +569,13 @@ export default {
           subField: "descripcion",
           label: "Tipo Mantenimiento",
           searchable: true
-        }
+        },
+        {
+          field: "costoTarea",
+          label: "Costo Total Tarea",
+          searchable: true
+        },
+        
       ],
       //tablas auxiliares @todo cambiar8
       tablaTrabajadores: [],
@@ -506,6 +588,7 @@ export default {
       //auxiliares modal
       isAdd: false,
       isEdit: false,
+      rowEdit:null,
 
       showModalCreateEdit: false,
       showModalDelete: false,
@@ -519,11 +602,32 @@ export default {
   watch:{
       ordenTrabajoCreada: function(val){
         this.fetchDatos();
+      },
+      showModalCreateEdit: function(val){
+        if(this.showModalCreateEdit==false)
+        {
+          this.inputDescripcion=null
+        this.inputFechaInicio=null
+        this.inputSemanaInicial=""
+        this.inputActivo=null
+        this.inputTrabajador=null
+        this.inputPeriodicidad=null
+        this.inputEstadoMantenimiento=null
+        this.inputTipoMantenimiento=null
+        this.inputBuscarActivo=""
+        this.inputBuscarTrabajador=""
+        this.inputBuscarPeriodicidad=""
+        this.inputBuscarEstadoMantenimiento=""
+        this.inputBuscarTipoMantenimiento=""
+        this.inputCostoHora=null
+        this.inputNumeroResponsables=null
+        this.inputHorasHombre=null
+        }
       }
   },
   mounted() {
     //llamados fetch @todo cambiar9
-    
+    this.authLogin();
     this.fetchDatos()
     //this.fetchTrabajadores()
     this.fetchPeriodicidades()
@@ -534,6 +638,26 @@ export default {
     
   },
   methods: {
+    authLogin() {
+      try {
+
+        fetch(process.env.VUE_APP_TITLE+"API/usuarios/authLogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+            console.log("Authlogin ")
+            console.log(resp);
+            this.tipoUsuario=resp.resultado.tipoUsuario
+            
+          });
+      } catch (e) {
+        this.$store.dispatch("setAuth", false);
+      }
+    },
     addTareaToOrden(){
         if(this.inputTarea && this.ordenTrabajoCreada && this.inputFechaInicio && this.inputSemanaInicial)
         {
@@ -544,7 +668,13 @@ export default {
           credentials: "include",
           body: JSON.stringify({
             //agregar campos a crear @todo cambiar11
-            
+            idPeriodicidad: this.inputPeriodicidad.id,
+            idEstadoMantenimiento: this.inputEstadoMantenimiento.id,
+            idTipoMantenimiento: this.inputTipoMantenimiento.id,
+            costoHora: this.inputCostoHora,
+            numeroResponsables: this.inputNumeroResponsables,
+            horasHombre: this.inputHorasHombre,
+
             fechaSolicitud:this.inputFechaInicio,
             semanaInicial:this.inputSemanaInicial,
             idTarea:this.inputTarea.id,
@@ -603,7 +733,31 @@ export default {
             var resp = data;
 
             if (data) {
-              this.tablaDatos = data["resultado"].Tareas;
+              this.tablaDatos = data["resultado"].Orden_Tareas;
+
+              this.tablaDatos.forEach(element => {
+                
+                  // var auxCostoTareas=0;
+                  // var auxCostoMateriales=0;
+                  // element.Tareas.forEach(tarea => {
+                  //     auxCostoTareas=auxCostoTareas+(tarea.Orden_Tarea.numeroResponsables*tarea.Orden_Tarea.horasHombre*parseFloat(tarea.Orden_Tarea.costoHora))
+                  // });
+                  // element.Materials.forEach(material => {
+                  //     auxCostoMateriales=auxCostoMateriales+(parseFloat(material.Orden_Material.cantidad)*parseFloat(material.precioUnitario))
+                  // });
+                  // element.costoTareas=auxCostoTareas.toFixed(2);
+                  // element.costoMateriales=auxCostoMateriales.toFixed(2);
+                  var costoTarea=0;
+                  costoTarea=element.numeroResponsables*element.horasHombre*parseFloat(element.costoHora)
+                  
+                  element.costoTarea=costoTarea;
+                  element.costoTarea=Math.round(element.costoTarea*100)/100
+                  this.costoGeneralTareas=this.costoGeneralTareas+element.costoTarea;
+                  console.log("TTT")
+                  console.log(element)
+              });
+
+
               console.log(this.tablaDatos)
             } else {
               //this.$router.push("/login")
@@ -710,8 +864,10 @@ export default {
     },
 
     createFunction() {
+      this.inputSemanaInicial=""
       this.showModalCreateEdit = true;
       this.isAdd = true;
+      this.isEdit=false;
     },
     submit() {
       if (this.isAdd) {
@@ -727,12 +883,7 @@ export default {
             //semanaInicial: this.inputSemanaInicial,
             //idActivo: this.inputActivo.id,
             //idTrabajadorResponsable: this.inputTrabajador.id,
-            idPeriodicidad: this.inputPeriodicidad.id,
-            idEstadoMantenimiento: this.inputEstadoMantenimiento.id,
-            idTipoMantenimiento: this.inputTipoMantenimiento.id,
-            costoHora: this.inputCostoHora,
-            numeroResponsables: this.inputNumeroResponsables,
-            horasHombre: this.inputHorasHombre,
+            
 
           }),
         })
@@ -747,7 +898,7 @@ export default {
 
             this.inputDescripcion=null,
             this.inputFechaInicio=null,
-            this.inputSemanaInicial=null,
+            this.inputSemanaInicial="",
             this.inputActivo=null,
             this.inputTrabajador=null,
             this.inputPeriodicidad=null,
@@ -768,51 +919,69 @@ export default {
             this.fetchDatos();
           });
       } else if (this.isEdit) {
-        fetch(
-          process.env.VUE_APP_TITLE+"API/"+this.prefixRuta+"/" + this.idSeleccionado.toString(),
-          {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({
-              //agregar campos editados @todo cambiar14
-              descripcion: this.inputDescripcion,
-            //fechaInicio: this.inputFechaInicio,
-            //semanaInicial: this.inputSemanaInicial,
-            //idActivo: this.inputActivo.id,
-            //idTrabajadorResponsable: this.inputTrabajador.id,
+        if(this.inputTarea && this.ordenTrabajoCreada && this.inputFechaInicio && this.inputSemanaInicial)
+        {
+            //this.$buefy.dialog.alert("Tarea agregada correctamente"); 
+            fetch(process.env.VUE_APP_TITLE+"API/ordenTareas/byot", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            //agregar campos a crear @todo cambiar11
+            idTarea:this.rowEdit.idTarea,
+            idOrden:this.rowEdit.idOrden,
+
             idPeriodicidad: this.inputPeriodicidad.id,
             idEstadoMantenimiento: this.inputEstadoMantenimiento.id,
             idTipoMantenimiento: this.inputTipoMantenimiento.id,
             costoHora: this.inputCostoHora,
             numeroResponsables: this.inputNumeroResponsables,
             horasHombre: this.inputHorasHombre,
-            }),
+
+            fechaSolicitud:this.inputFechaInicio,
+            semanaInicial:this.inputSemanaInicial,
+            idTarea:this.inputTarea.id,
+            idOrden:this.ordenTrabajoCreada.id
+
+          }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              var resp = data["resultado"];
+              this.tareaCreada=resp;
+              console.log(resp);
+
+              this.inputBuscarTarea=""
+              this.inputTarea=null
+
+              this.inputFechaInicio=null
+              this.inputSemanaInicial=null
+
+              this.showModalCreateEdit = false;
+              this.$buefy.dialog.alert("Tarea editada correctamente");
+
+              this.fetchDatos();
+            });
+        }
+        else
+        {
+          if(!this.inputFechaInicio)
+          {
+            this.$buefy.dialog.alert("Ingrese Fecha Inicio"); 
           }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            var resp = data.message;
-            //encerar valores @todo cambiar15
-            this.inputDescripcion=null,
-            this.inputFechaInicio=null,
-            this.inputSemanaInicial=null,
-            this.inputActivo=null,
-            this.inputTrabajador=null,
-            this.inputPeriodicidad=null,
-            this.inputEstadoMantenimiento=null,
-            this.inputTipoMantenimiento=null,
-            this.inputBuscarActivo="",
-            this.inputBuscarTrabajador="",
-            this.inputBuscarPeriodicidad="",
-            this.inputBuscarEstadoMantenimiento="",
-            this.inputBuscarTipoMantenimiento="",
-            
-            this.showModalCreateEdit = false;
-            this.$buefy.dialog.alert("Tarea editada correctamente");
-            //llamar fetch
-            this.fetchDatos();
-          });
+          else if(!this.inputSemanaInicial)
+          {
+            this.$buefy.dialog.alert("Ingrese Semana Inicial"); 
+          }
+          else if(!this.inputTarea)
+          {
+            this.$buefy.dialog.alert("Seleccione una tarea"); 
+          }
+          else if(!this.ordenTrabajoCreada)
+          {
+            this.$buefy.dialog.alert("Seleccione una orden de trabajo"); 
+          }
+        }
       }
     },
     verFichaEquipo(row){
@@ -821,9 +990,16 @@ export default {
     },
     editFunction(row) {
       //obtener valores para editar en form @todo cambiar16
-        this.inputDescripcion=row.descripcion
-        this.inputFechaInicio=new Date(row.fechaInicio)
+      console.log("EDITTTT")
+      console.log(row)
+      this.inputTarea=row.Tarea
+      this.rowEdit=row
+        this.inputDescripcion=row.Tarea.descripcion
+        this.inputFechaInicio=new Date(row.fechaSolicitud)
         this.inputSemanaInicial=row.semanaInicial
+        this.inputNumeroResponsables=row.numeroResponsables
+        this.inputHorasHombre=row.horasHombre
+        this.inputCostoHora=row.costoHora
         // this.inputActivo=,
         // this.inputTrabajador=null,
         // this.inputPeriodicidad=null,
@@ -859,8 +1035,8 @@ export default {
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             body: JSON.stringify({
-              idTarea:rowDel.Orden_Tarea.idTarea,
-              idOrden:rowDel.Orden_Tarea.idOrden
+              idTarea:rowDel.idTarea,
+              idOrden:rowDel.idOrden
             
             }),
           }

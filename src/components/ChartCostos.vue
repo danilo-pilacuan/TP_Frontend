@@ -62,12 +62,14 @@
 
 
               this.tablaDatos = data["resultado"];       
+              // console.log("HEEEERREEE")
+              // console.log(this.tablaDatos)
               
               this.tablaDatos.forEach(element => {
                   var auxCostoTareas=0;
                   var auxCostoMateriales=0;
                   element.Tareas.forEach(tarea => {
-                      auxCostoTareas=auxCostoTareas+(tarea.numeroResponsables*tarea.horasHombre*parseFloat(tarea.costoHora))
+                      auxCostoTareas=auxCostoTareas+(tarea.Orden_Tarea.numeroResponsables*tarea.Orden_Tarea.horasHombre*parseFloat(tarea.Orden_Tarea.costoHora))
                   });
                   element.Materials.forEach(material => {
                       auxCostoMateriales=auxCostoMateriales+(parseFloat(material.Orden_Material.cantidad)*parseFloat(material.precioUnitario))
@@ -94,25 +96,65 @@
 
               this.tablaDatos=groupBy(this.tablaDatos, 'fechaOrden')
 
+              // console.log('Datosss Fechaaa');
+              // console.log(this.tablaDatos);
               
+              var sortable=[]
+              for (var fecha in this.tablaDatos)
+              {
+                sortable.push([fecha,this.tablaDatos[fecha]])
+              }
+
+              sortable.forEach(element => {
+                var parts = element[0].split("/");
+                var dt = new Date(parseInt(parts[2], 10),
+                  parseInt(parts[1], 10) - 1,
+                  parseInt(parts[0], 10));
+                element[0]=dt;
+              });
+              
+              sortable.sort((a, b) => (Date.parse(a[0]) < Date.parse(b[0])) ? 1 : -1)
+
+              sortable.forEach(element => {
+                
+                let day = element[0].getDate()
+                let month = element[0].getMonth() + 1
+                let year = element[0].getFullYear()
+                element[0]=day.toString()+"/"+month.toString()+"/"+year.toString()
+              });
+
+
+              // console.log("SortableSoooort")
+              // console.log(sortable)
+
               let arraySumaTotal=[]
               let arraySumaTareas=[]
               let arraySumaMateriales=[]
               
-              Object.keys(this.tablaDatos).forEach(element => {
+              
+
+              sortable.forEach(element => {
                 var sumTotal=0;
                 var sumMateriales=0;
                 var sumTareas=0;
 
-                this.tablaDatos[element].forEach(element2=>{
+                element[1].forEach(element2=>{
                   sumTotal=sumTotal+parseFloat(element2.costoTareas)+parseFloat(element2.costoMateriales);
                   sumMateriales=sumMateriales+parseFloat(element2.costoMateriales);
                   sumTareas=sumTareas+parseFloat(element2.costoTareas);
                 });
-                arraySumaTotal.push({"label":element,"valor":sumTotal})
-                arraySumaTareas.push({"label":element,"valor":sumTareas})
-                arraySumaMateriales.push({"label":element,"valor":sumMateriales})
+                arraySumaTotal.push({"label":element[0],"valor":sumTotal.toFixed(2)})
+                arraySumaTareas.push({"label":element[0],"valor":sumTareas.toFixed(2)})
+                arraySumaMateriales.push({"label":element[0],"valor":sumMateriales.toFixed(2)})
               });
+              
+              // console.log('Array Suma total');
+              // console.log(arraySumaTotal);
+              // console.log('Array Suma Tareas');
+              // console.log(arraySumaTareas);
+              // console.log('Array Suma Materiales');
+              // console.log(arraySumaMateriales);
+
               arraySumaTotal.sort((a, b) => (Date.parse(a.label) > Date.parse(b.label)) ? 1 : -1)
               arraySumaTareas.sort((a, b) => (Date.parse(a.label) > Date.parse(b.label)) ? 1 : -1)
               arraySumaMateriales.sort((a, b) => (Date.parse(a.label) > Date.parse(b.label)) ? 1 : -1)

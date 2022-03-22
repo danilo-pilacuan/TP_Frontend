@@ -2,7 +2,7 @@
   <div id="users" class="home">
     <hero-bar>
       Activos
-      <b-button slot="right" type="is-primary" @click="createFunction">Crear</b-button>
+      <b-button slot="right" type="is-primary" @click="createFunction" v-if="tipoUsuario==1">Crear</b-button>
     </hero-bar>
     <div class="container">
         
@@ -64,6 +64,7 @@
                 type="is-warning"
                 icon-left="pencil"
                 @click="editFunction(props.row)"
+                :disabled="tipoUsuario==2"
               >
               </b-button>
               <b-button
@@ -71,6 +72,7 @@
                 type="is-danger"
                 icon-left="delete"
                 @click="deleteFunction(props.row)"
+                :disabled="tipoUsuario==2"
               >
               </b-button>
             </div>
@@ -225,6 +227,7 @@ export default {
   data() {
     return {
       //nombres campos
+      tipoUsuario:1,
       inputNombre: null,
       inputEtiqueta: null,
       inputCodigo: null,
@@ -306,6 +309,7 @@ export default {
   },
   mounted() {
     //llamados fetch
+    this.authLogin();
     this.fetchActivos();
     this.fetchPrioridades();
     this.fetchCategorias();
@@ -314,6 +318,26 @@ export default {
     console.log(this.titleSAs)
   },
   methods: {
+    authLogin() {
+      try {
+
+        fetch(process.env.VUE_APP_TITLE+"API/usuarios/authLogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+            console.log("Authlogin ")
+            console.log(resp);
+            this.tipoUsuario=resp.resultado.tipoUsuario
+            
+          });
+      } catch (e) {
+        this.$store.dispatch("setAuth", false);
+      }
+    },
     verFicha(row)
     {
       var idActivo=row.id

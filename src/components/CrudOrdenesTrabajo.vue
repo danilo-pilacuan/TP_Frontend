@@ -3,7 +3,7 @@
     <hero-bar>
         <!-- @todo cambiar1 -->
       Órdenes de Trabajo
-      <b-button slot="right" type="is-primary" @click="createFunction">Crear</b-button>
+      <b-button slot="right" type="is-primary" @click="createFunction" v-if="tipoUsuario==1">Crear</b-button>
     </hero-bar>
     <div class="container">
         
@@ -70,6 +70,7 @@
                 type="is-danger"
                 icon-left="delete"
                 @click="deleteFunction(props.row)"
+                :disabled="tipoUsuario==2"
               >
               </b-button>
             </div>
@@ -90,6 +91,7 @@ export default {
   },
   data() {
     return {
+      tipoUsuario:1,
         //prefijo ruta @todo cambiar3
       prefixRuta: "ordentrabajo",
       //nombres campos @todo cambiar4
@@ -169,10 +171,30 @@ export default {
   },
   mounted() {
     //llamados fetch @todo cambiar9
-    
+    this.authLogin();
     this.fetchDatos()
   },
   methods: {
+    authLogin() {
+      try {
+
+        fetch(process.env.VUE_APP_TITLE+"API/usuarios/authLogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+            console.log("Authlogin ")
+            console.log(resp);
+            this.tipoUsuario=resp.resultado.tipoUsuario
+            
+          });
+      } catch (e) {
+        this.$store.dispatch("setAuth", false);
+      }
+    },
     verOrden(row){
       var idOrden=row.id
       this.$router.push("/Ordenes/"+idOrden);
