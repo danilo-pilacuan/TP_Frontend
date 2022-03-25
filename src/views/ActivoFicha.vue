@@ -103,7 +103,7 @@
           </div>
         </card-component>
       </tiles>
-      <!-- <card-component title="Historial de Mantenimiento" icon="book">
+      <card-component title="Historial de Mantenimiento" icon="book">
         <b-button
           type="is-success"
           size="is-big"
@@ -112,7 +112,7 @@
           Imprimir Informe
         </b-button>
         <b-table
-          :data="tablaTareas"
+          :data="tablaOrdenesTrabajo"
           :bordered="true"
           :striped="true"
           :narrowed="false"
@@ -124,7 +124,7 @@
           :paginated="true"
           :per-page="20"
         >
-          <template v-for="column in columns">
+          <!-- <template v-for="column in columns">
             <b-table-column :key="column.id" v-bind="column">
               <template
                 v-if="column.searchable && !column.numeric"
@@ -147,10 +147,62 @@
                 </div>
               </template>
             </b-table-column>
-          </template>
-          
+            
+          </template> -->
+          <b-table-column
+        v-slot="props"
+        label="Numero"
+        field="numero"
+        searchable
+      >
+        {{ props.row.numero }}
+      </b-table-column>
+          <b-table-column
+        v-slot="props"
+        label="Fecha Orden"
+        field="fechaOrden"
+        searchable
+      >
+        {{ props.row.fechaOrden }}
+      </b-table-column>
+          <b-table-column
+        v-slot="props"
+        label="Observaciones"
+        field="observaciones"
+        searchable
+      >
+        {{ props.row.observaciones }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        label="Nombres Solicitante"
+        field="Trabajador.nombres"
+        searchable
+      >
+        {{ props.row.Trabajador.nombres }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        label="Apellidos Solicitante"
+        field="Trabajador.apellidos"
+        searchable
+      >
+        {{ props.row.Trabajador.apellidos }}
+      </b-table-column>
+          <b-table-column field="actions" label="Acciones" v-slot="props">
+              <div class="buttons">
+                <slot name="addButtons"></slot>
+                <b-button
+                  rounded
+                  type="is-link"
+                  icon-left="eye"
+                  @click="verOrden(props.row)"
+                >
+                </b-button>
+              </div>
+            </b-table-column>
         </b-table>
-      </card-component> -->
+      </card-component>
     </section>
   </div>
 </template>
@@ -189,19 +241,24 @@ export default {
       idActivo: 1,
       tipoUsuario: 1,
       userName: "sda",
-      tablaTareas: [],
+      tablaOrdenesTrabajo: [],
       tablaImagenes: [],
       hayImgs: false,
       apiurl:process.env.VUE_APP_TITLE,
       columns: [
         {
-          field: "descripcion",
-          label: "Descripción",
+          field: "numero",
+          label: "Numero",
           searchable: true,
         },
         {
-          field: "mantenimiento",
-          label: "Mantenimiento",
+          field: "fechaOrden",
+          label: "Fecha Orden",
+          searchable: true,
+        },
+        {
+          field: "observaciones",
+          label: "Observaciones",
           searchable: true,
         },
         {
@@ -216,18 +273,7 @@ export default {
           label: "Apellido Encargado",
           searchable: true,
         },
-        {
-          field: "Periodicidad",
-          subField: "descripcion",
-          label: "Periodicidad",
-          searchable: true,
-        },
-        {
-          field: "EstadoMantenimiento",
-          subField: "descripcion",
-          label: "Estado Mantenimiento",
-          searchable: true,
-        },
+        
       ],
       datosActivo: {
         nombre: "",
@@ -267,6 +313,10 @@ export default {
       } catch (e) {
         this.$store.dispatch("setAuth", false);
       }
+    },
+    verOrden(row){
+      var idOrden=row.id
+      this.$router.push("/Ordenes/"+idOrden);
     },
     imprimirInforme()
     {
@@ -334,7 +384,7 @@ export default {
               console.log("this.datosActivo");
               console.log(this.datosActivo);
               this.datosActivo = data["resultado"];
-              this.tablaTareas = this.datosActivo.Tareas;
+              this.tablaOrdenesTrabajo = this.datosActivo.OrdenTrabajos;
 
               console.log(this.datosActivo);
             } else {

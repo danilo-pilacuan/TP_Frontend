@@ -26,7 +26,7 @@
           :paginated="true"
           :per-page="20"
         >
-          <template v-for="column in columns">
+          <!-- <template v-for="column in columns">
             <b-table-column :key="column.id" v-bind="column">
               <template
                 v-if="column.searchable && !column.numeric"
@@ -48,7 +48,73 @@
                 </div>
               </template>
             </b-table-column>
-          </template>
+          </template> -->
+          <b-table-column
+            v-slot="props"
+            label="Numero"
+            field="numero"
+            searchable
+          >
+            {{ props.row.numero }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Fecha Orden"
+            field="fechaOrden"
+            searchable
+          >
+            {{ props.row.fechaOrden }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Taller"
+            field="Taller.descripcion"
+            searchable
+          >
+            {{ props.row.Taller.descripcion }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Área"
+            field="area.descripcion"
+            searchable
+          >
+            {{ props.row.Area.descripcion }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Activo"
+            field="Activo.nombre"
+            searchable
+          >
+            {{ props.row.Activo.nombre }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Observaciones"
+            field="observaciones"
+            searchable
+          >
+            {{ props.row.observaciones }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Nombres Solicitante"
+            field="Trabajador.nombres"
+            searchable
+          >
+            {{ props.row.Trabajador.nombres }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Apellidos Solicitante"
+            field="Trabajador.apellidos"
+            searchable
+          >
+            {{ props.row.Trabajador.apellidos }}
+          </b-table-column>
+
+
           <b-table-column field="actions" label="Acciones" v-slot="props">
             <div class="buttons">
               <b-button

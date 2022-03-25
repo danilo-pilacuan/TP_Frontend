@@ -25,7 +25,7 @@
           :paginated="true"
           :per-page="20"
         >
-          <template v-for="column in columns">
+          <!-- <template v-for="column in columns">
             <b-table-column :key="column.id" v-bind="column">
               <template
                 v-if="column.searchable && !column.numeric"
@@ -47,7 +47,74 @@
                 </div>
               </template>
             </b-table-column>
-          </template>
+          </template> -->
+          <b-table-column
+            v-slot="props"
+            label="Nombre"
+            field="nombre"
+            searchable
+          >
+            {{ props.row.nombre }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Etiqueta"
+            field="etiqueta"
+            searchable
+          >
+            {{ props.row.etiqueta }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Código"
+            field="codigo"
+            searchable
+          >
+            {{ props.row.codigo }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Modelo"
+            field="modelo"
+            searchable
+          >
+            {{ props.row.modelo }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Número de Serie"
+            field="numSerie"
+            searchable
+          >
+            {{ props.row.numSerie }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Área"
+            field="Area.descripcion"
+            searchable
+          >
+            {{ props.row.Area.descripcion }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Prioridad"
+            field="Prioridad.denominacion"
+            searchable
+          >
+            {{ props.row.Prioridad.denominacion }}
+          </b-table-column>
+          <b-table-column
+            v-slot="props"
+            label="Categoría"
+            field="Categoria.descripcion"
+            searchable
+          >
+            {{ props.row.Categoria.descripcion }}
+          </b-table-column>
+
+
+
           <b-table-column field="actions" label="Acciones" v-slot="props">
             <div class="buttons">
             <b-button
